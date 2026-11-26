@@ -28,7 +28,7 @@ const dentroDoScript = s => s.replace(/<\/(script)/gi, '<\\/$1').replace(/<!--/g
 const pagina = fs.readFileSync(path.join(raiz, 'gerador', 'pagina.html'), 'utf8');
 const gerarJs = fs.readFileSync(path.join(raiz, 'gerador', 'gerar.js'), 'utf8');
 if (!pagina.includes('/*__ARQUIVOS__*/null') || !pagina.includes('/*__GERAR_JS__*/')) throw new Error('gerador/pagina.html sem os marcadores');
-// Pix de apoio: o QR Code e o copia e cola ficam em apoie/ (o mesmo QR que o LEIAME mostra)
+// Pix de apoio: o QR Code e o copia e cola ficam em apoie/ (o mesmo QR que o README mostra)
 const pixQr = fs.readFileSync(path.join(raiz, 'apoie', 'pix-qr.svg'), 'utf8').replace(/<title>.*?<\/title>/, '').replace('<svg ', '<svg role="img" aria-label="QR Code do Pix" ');
 const pixCopia = fs.readFileSync(path.join(raiz, 'apoie', 'pix-copia-e-cola.txt'), 'utf8').trim();
 if (!/^000201.*6304[0-9A-F]{4}$/.test(pixCopia) || /['\\]/.test(pixCopia)) throw new Error('apoie/pix-copia-e-cola.txt inválido');

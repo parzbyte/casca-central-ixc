@@ -1,5 +1,9 @@
 # Casca da Central do Assinante do IXC
 
+**[Abrir o gerador](https://parzbyte.github.io/casca-central-ixc/gerador.html)**: coloque o link da sua Central, a logo e a
+cor, veja como fica no celular e no computador e baixe a pasta para o site. Funciona direto no navegador, sem instalar
+nada.
+
 Um CSS e um script que o app do provedor injeta na Central do Assinante do IXC para ela aparecer com a cara do
 provedor e com telas pensadas para o celular. Funciona nas duas Centrais do IXC:
 
@@ -51,7 +55,7 @@ integrações e automações com o IXC.
 
 ## Gerador: a Central com a casca no site do provedor
 
-Abra `gerador.html` no navegador (direto do disco ou publicado num site). Coloque o link da Central, o nome, a logo,
+Abra o [gerador](https://parzbyte.github.io/casca-central-ixc/gerador.html), ou o `gerador.html` direto do disco. Coloque o link da Central, o nome, a logo,
 a cor e o domínio do site. O gerador vê pelo link se é a Central antiga (`/central_assinante_web/`) ou a nova
 (`/central-assinante/`) e baixa um .zip com a pasta pronta. Tudo acontece no navegador: nada é enviado para servidor
 nenhum.

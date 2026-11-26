@@ -72,6 +72,21 @@
   .janela .cab code { margin-left: 12px; font-size: 12.5px; background: transparent; border: 0; color: var(--sec); }
   .janela .tela { position: relative; width: 100%; aspect-ratio: 1366 / 768; overflow: hidden; }
   .janela iframe { width: 1366px; height: 768px; border: 0; transform-origin: 0 0; position: absolute; inset: 0 auto auto 0; }
+  .topo .passos li.ver { background: transparent; border-color: transparent; padding-left: 4px; }
+  .topo .passos li.ver a { color: var(--marca); font-weight: 700; }
+  .tutorial { background: var(--sup); border: 1px solid var(--fio); border-radius: var(--raio); box-shadow: var(--sombra); padding: 26px; display: grid; gap: 14px; scroll-margin-top: 80px; }
+  .tutorial h2 { margin: 0; font-size: clamp(22px, 3vw, 28px); letter-spacing: -.02em; }
+  .tutorial .etapas { list-style: none; counter-reset: etapa; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .tutorial .etapas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .tutorial .etapas { grid-template-columns: 1fr; } }
+  .tutorial .etapas li { counter-increment: etapa; background: var(--fundo); border: 1px solid var(--fio); border-radius: 16px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+  .tutorial .etapas li::before { content: counter(etapa); width: 30px; height: 30px; border-radius: 50%; background: var(--marca); color: #fff; font-weight: 800; font-size: 14px; display: grid; place-items: center; }
+  .tutorial .etapas b { font-size: 15.5px; }
+  .tutorial .etapas span { color: var(--sec); font-size: 14px; }
+  .tutorial .duvidas { display: grid; gap: 8px; margin-top: 4px; }
+  .tutorial details { border: 1px solid var(--fio); border-radius: 14px; padding: 0 16px; background: var(--fundo); }
+  .tutorial summary { cursor: pointer; font-weight: 700; padding: 13px 0; list-style-position: inside; }
+  .tutorial details p { margin: 0 0 14px; color: var(--sec); font-size: 14.5px; }
   section.pronto { background: var(--sup); border: 1px solid var(--fio); border-left: 5px solid var(--ok); border-radius: var(--raio); padding: 24px; box-shadow: var(--sombra); display: grid; gap: 12px; }
   section.pronto[hidden] { display: none; }
   section.pronto h2 { margin: 0; font-size: 21px; }
@@ -121,7 +136,7 @@
   <header class="topo">
     <h1>A Central do IXC com a <em>cara do seu provedor</em>.</h1>
     <p>Coloque o link da sua Central, a logo e a cor. O gerador descobre se é a Central antiga ou a nova, mostra como vai ficar no celular e no computador e monta a pasta para subir no site. Tudo acontece neste navegador: nada é enviado para servidor nenhum.</p>
-    <ol class="passos"><li><b>1</b>Link da Central</li><li><b>2</b>Logo e cor</li><li><b>3</b>Baixar e subir no site</li></ol>
+    <ol class="passos"><li><b>1</b>Link da Central</li><li><b>2</b>Logo e cor</li><li><b>3</b>Baixar e subir no site</li><li class="ver"><a href="#tutorial">Ver o passo a passo</a></li></ol>
   </header>
 
   <div class="grade">
@@ -175,6 +190,25 @@
       <div class="tela" id="pcTela"><iframe id="amostraPc" title="Amostra da Central no computador"></iframe></div></div>
   </section>
 
+  <section class="tutorial" id="tutorial" aria-labelledby="tutorialTitulo">
+    <h2 id="tutorialTitulo">Passo a passo</h2>
+    <p class="ajuda">Do link da Central até o cliente entrando pelo site do provedor.</p>
+    <ol class="etapas">
+      <li><b>Copie o link da Central</b><span>Abra a Central do Assinante no navegador e copie o endereço da barra. Ele termina em <code>/central_assinante_web/</code> (antiga) ou tem <code>/central-assinante/</code> (nova).</span></li>
+      <li><b>Cole aqui em cima</b><span>O gerador mostra na hora se é a Central antiga ou a nova.</span></li>
+      <li><b>Nome, logo e cor</b><span>As amostras do celular e do computador mudam juntas. Confira antes de baixar.</span></li>
+      <li><b>Domínio e baixar</b><span>Escreva só o domínio do site (<code>seuprovedor.com.br</code>) e clique em <b>Gerar e baixar a pasta</b>.</span></li>
+      <li><b>Suba no site</b><span>No cPanel, abra o Gerenciador de Arquivos, entre em <code>public_html</code>, envie o .zip e clique em <b>Extrair</b>. Tem que aparecer a pasta <code>central_assinante_web</code> ou <code>central</code>.</span></li>
+      <li><b>Teste e divulgue</b><span>Abra <code>seuprovedor.com.br/central_assinante_web/</code> (ou <code>/central/</code>), entre com uma conta de cliente e depois divulgue esse endereço.</span></li>
+    </ol>
+    <div class="duvidas">
+      <details><summary>Minha hospedagem serve?</summary><p>Precisa de PHP 8 com cURL e Apache com mod_rewrite. É o comum em cPanel, Hostinger e parecidas. Site só no Wix, na Vercel ou em outro serviço sem PHP não serve: use uma hospedagem com cPanel, mesmo num subdomínio.</p></details>
+      <details><summary>Abriu "A Central está fora do ar"</summary><p>O site não conseguiu falar com a Central do IXC. Confira se o link da Central abre no navegador e se a hospedagem libera conexões de saída. Depois tente de novo.</p></details>
+      <details><summary>Quero trocar a cor ou a logo</summary><p>Gere de novo aqui e envie a pasta por cima da antiga. Os clientes não precisam fazer nada.</p></details>
+      <details><summary>E a minha Central do IXC muda?</summary><p>Não. A Central continua no IXC, com os mesmos dados e as mesmas senhas. O site do provedor só mostra a Central com o visual novo.</p></details>
+    </div>
+  </section>
+
   <section class="pronto" id="pronto" hidden aria-live="polite">
     <h2>Pasta pronta</h2>
     <p id="prontoTxt"></p>
@@ -200,7 +234,7 @@
     <div class="qr"><!--__PIX_QR__--><span>Aponte a câmera do banco</span></div>
   </section>
 
-  <section class="contato" aria-labelledby="contatoTitulo">
+  <section class="contato" id="contato" aria-labelledby="contatoTitulo">
     <div>
       <span class="selo-c">Fale com a Parzbyte</span>
       <h2 id="contatoTitulo">Quer ir além da casca? Vamos conversar sobre o seu provedor.</h2>

@@ -40,7 +40,25 @@ Quer ir além da casca? A Parzbyte faz projetos sob medida para provedores que u
 (Android e iPhone), chat no site ligado ao Opa Suite, Central com a cara do provedor, assinatura de contrato,
 integrações e automações com o IXC.
 
-**WhatsApp: [(62) 99815-4840](https://wa.me/5562998154840?text=Ol%C3%A1!%20Vim%20pela%20casca%20da%20Central%20e%20quero%20falar%20sobre%20um%20projeto.)**
+O contato está no fim da [página do gerador](https://parzbyte.github.io/casca-central-ixc/gerador.html#contato).
+
+## Como usar (passo a passo)
+
+1. **Copie o link da sua Central.** Abra a Central do Assinante no navegador e copie o endereço da barra. Ele termina em
+   `/central_assinante_web/` (Central antiga) ou tem `/central-assinante/` (Central nova).
+2. **Abra o [gerador](https://parzbyte.github.io/casca-central-ixc/gerador.html)** e cole o link. Ele mostra na hora qual
+   Central é.
+3. **Coloque o nome, a logo e a cor do provedor.** As amostras do celular e do computador mudam juntas: confira antes de
+   baixar.
+4. **Escreva o domínio do site** onde a Central vai ficar (só o domínio, por exemplo `seuprovedor.com.br`) e clique em
+   **Gerar e baixar a pasta**.
+5. **Suba no site.** No cPanel (ou no painel da hospedagem), abra o Gerenciador de Arquivos, entre em `public_html`,
+   envie o .zip e use **Extrair**. Tem que aparecer a pasta `central_assinante_web` (antiga) ou `central` (nova) dentro
+   de `public_html`.
+6. **Teste.** Abra `https://seuprovedor.com.br/central_assinante_web/` (ou `/central/`) e entre com uma conta de
+   cliente. Depois é só divulgar esse endereço.
+
+Para trocar a cor ou a logo, gere de novo e envie a pasta por cima da antiga.
 
 ## O que tem
 

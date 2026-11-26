@@ -39,6 +39,8 @@ function cascaCfg(): array
 
 // utilidades
 ini_set('display_errors', '0');
+header('X-Frame-Options: SAMEORIGIN');
+header("Content-Security-Policy: frame-ancestors 'self'");
 ini_set('default_mimetype', ''); // sem Content-Type inventado quando a origem não manda um
 header_remove('X-Powered-By');
 
@@ -227,7 +229,13 @@ $ref = (string) ($_SERVER['HTTP_REFERER'] ?? '');
 if ($ref !== '' && strncmp($ref, $baseEsp, strlen($baseEsp)) === 0) {
     $cab[] = 'Referer: https://' . ORIGEM_HOST . ORIGEM_BASE . str_replace(["\r", "\n"], '', substr($ref, strlen($baseEsp)));
 }
-if (isset($_SERVER['HTTP_ORIGIN'])) $cab[] = 'Origin: https://' . ORIGEM_HOST;
+// Origin só é trocado pelo da Central quando o pedido nasceu no próprio espelho. Pedido que grava vindo de
+// outro site é recusado aqui: trocar o Origin dele anularia a conferência da Central contra pedido forjado.
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    $origemPedido = strtolower(rtrim((string) $_SERVER['HTTP_ORIGIN'], '/'));
+    if ($origemPedido === strtolower($origemEsp)) $cab[] = 'Origin: https://' . ORIGEM_HOST;
+    elseif (!in_array($metodo, ['GET', 'HEAD'], true)) falhar(403, 'Pedido recusado', 'Este pedido não veio da Central do Assinante.');
+}
 if (REPASSAR_IP && !empty($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP)) {
     $cab[] = 'X-Forwarded-For: ' . $_SERVER['REMOTE_ADDR'];
 }

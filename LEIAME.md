@@ -30,6 +30,14 @@ a manter a casca atualizada quando o IXC muda a Central.
 
 Não é obrigatório: avisar de um defeito ou mandar uma melhoria ajuda tanto quanto.
 
+## Fale com a Parzbyte
+
+Quer ir além da casca? A Parzbyte faz projetos sob medida para provedores que usam o IXC e o Opa Suite: app do provedor
+(Android e iPhone), chat no site ligado ao Opa Suite, Central com a cara do provedor, assinatura de contrato,
+integrações e automações com o IXC.
+
+**WhatsApp: [(62) 99815-4840](https://wa.me/5562998154840?text=Ol%C3%A1!%20Vim%20pela%20casca%20da%20Central%20e%20quero%20falar%20sobre%20um%20projeto.)**
+
 ## O que tem
 
 - Entrada com login, primeiro acesso e "Esqueci minha senha" (quando o provedor liga).

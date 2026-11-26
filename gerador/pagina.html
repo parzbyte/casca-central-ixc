@@ -94,6 +94,20 @@
   .apoie .qr svg { width: 188px; height: 188px; display: block; }
   .apoie .qr span { color: #17181c; font-size: 12.5px; font-weight: 600; }
   @media (max-width: 640px) { .apoie { grid-template-columns: 1fr; padding: 22px 18px; } .apoie .qr { justify-self: center; } .barra .atalho-pix span { display: none; } }
+  .contato { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 28px 30px; border-radius: 26px; background: #17181c; color: #f1f1ee; border: 1px solid #2b2d34; }
+  .contato .selo-c { display: inline-flex; align-items: center; gap: 8px; color: #ff8a94; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .contato .selo-c::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--marca); }
+  .contato h2 { margin: 10px 0 8px; font-size: clamp(22px, 3vw, 30px); line-height: 1.12; letter-spacing: -.02em; max-width: 26ch; }
+  .contato p { margin: 0; color: #c4c6cd; max-width: 60ch; }
+  .contato ul { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .contato li { font-size: 13.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #24262c; border: 1px solid #33353d; }
+  .contato .acao { display: grid; gap: 8px; justify-items: center; text-align: center; }
+  .contato a.zap { display: inline-flex; align-items: center; gap: 10px; background: var(--marca); color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; min-height: 54px; padding: 0 24px; border-radius: 999px; white-space: nowrap; }
+  .contato a.zap:hover { background: var(--marca-escura); }
+  .contato a.zap svg { width: 22px; height: 22px; flex: none; }
+  .contato .numero { font: 700 17px/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; color: #fff; }
+  .contato .acao small { color: #a3a6b0; font-size: 12.5px; }
+  @media (max-width: 720px) { .contato { grid-template-columns: 1fr; padding: 22px 18px; } .contato .acao { justify-items: start; text-align: left; } }
   footer { color: var(--sec); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; border-top: 1px solid var(--fio); padding-top: 20px; }
   footer b { color: var(--tinta); }
 </style>
@@ -184,6 +198,20 @@
       </div>
     </div>
     <div class="qr"><!--__PIX_QR__--><span>Aponte a câmera do banco</span></div>
+  </section>
+
+  <section class="contato" aria-labelledby="contatoTitulo">
+    <div>
+      <span class="selo-c">Fale com a Parzbyte</span>
+      <h2 id="contatoTitulo">Quer ir além da casca? Vamos conversar sobre o seu provedor.</h2>
+      <p>Projetos sob medida para provedores que usam o IXC e o Opa Suite. Chame no WhatsApp para falar de um projeto novo ou de uma solução para o seu dia a dia.</p>
+      <ul><li>App do provedor (Android e iPhone)</li><li>Chat no site ligado ao Opa Suite</li><li>Central com a cara do provedor</li><li>Assinatura de contrato</li><li>Integrações e automações com o IXC</li></ul>
+    </div>
+    <div class="acao">
+      <a class="zap" href="https://wa.me/5562998154840?text=Ol%C3%A1!%20Vim%20pelo%20gerador%20da%20casca%20da%20Central%20e%20quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.3A8.5 8.5 0 1 1 21 12z"/></svg>Chamar no WhatsApp</a>
+      <span class="numero">(62) 99815-4840</span>
+      <small>Atendimento da Parzbyte</small>
+    </div>
   </section>
 
   <footer><span>Feito pela <b>Parzbyte</b>. Código aberto para uso livre e sem revenda.</span><span>Não tem ligação com a IXC Soft.</span></footer>

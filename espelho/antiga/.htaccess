@@ -1,0 +1,27 @@
+# Espelho da Central do Assinante: tudo sob /central_assinante_web/ vai para o index.php (proxy),
+# menos os arquivos do próprio espelho em /central_assinante_web/_espelho/ (casca, CSS de PC, logo).
+Options -Indexes
+DirectoryIndex index.php
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /central_assinante_web/
+
+  RewriteRule ^index\.php$ - [L]
+
+  RewriteCond %{REQUEST_URI} ^/central_assinante_web/_espelho/
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|png)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>

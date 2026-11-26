@@ -24,13 +24,34 @@ Central. A casca lê o estado da página e repassa os cliques.
 - Dentro do app: barra de abas nativa e "manter conectado" com o login guardado pelo app. Esse login só é apagado
   quando a Central recusa a senha.
 
+## Gerador: a Central com a casca no site do provedor
+
+Abra `gerador.html` no navegador (direto do disco ou publicado num site). Coloque o link da Central, o nome, a logo,
+a cor e o domínio do site. O gerador vê pelo link se é a Central antiga (`/central_assinante_web/`) ou a nova
+(`/central-assinante/`) e baixa um .zip com a pasta pronta. Tudo acontece no navegador: nada é enviado para servidor
+nenhum.
+
+A pasta é um "espelho": um `index.php` que repassa a Central do IXC e devolve as páginas com a casca dentro, mais a
+adaptação para tela de computador. Suba a pasta na raiz do site (`public_html`, na maioria das hospedagens):
+
+- Central antiga: fica em `https://seusite.com.br/central_assinante_web/`.
+- Central nova: fica em `https://seusite.com.br/central/`.
+
+A hospedagem precisa de PHP 8 com cURL e Apache com mod_rewrite (o comum em cPanel e Hostinger). O espelho só fala com
+o endereço da Central que foi gerado, não grava senha, cookie nem corpo de pedido em log, e os cookies da Central ficam
+presos à pasta dela.
+
+Os modelos do espelho ficam em `espelho/antiga` e `espelho/nova`; a página, em `gerador/`. Depois de mexer em
+qualquer um deles, ou na casca, rode `node ferramentas/empacotar.mjs` para montar o `gerador.html` de novo.
+
 ## Montar o arquivo para o app
 
 ```bash
 node ferramentas/empacotar.mjs
 ```
 
-Gera `dist/casca-app.js` com o CSS embutido, os ícones e as duas cascas. É esse arquivo que o app injeta.
+Gera `dist/casca-app.js` com o CSS embutido, os ícones e as duas cascas (é esse arquivo que o app injeta) e o
+`gerador.html`. Para conferir o gerador: `node testes/testa-gerador.mjs`.
 
 ## Como o app injeta
 
@@ -97,6 +118,11 @@ O endereço também pode ficar em `simulador/config.json` (veja `config.exemplo.
 ficam fora do git. Nunca publique nada delas.
 
 Precisa de Node 22 ou mais novo e do Chrome ou do Edge instalado.
+
+## Apoie o projeto
+
+A casca é de graça. Se ela ajudou o seu provedor e você quiser apoiar, o Pix é `david@parzbyte.com.br`. Não é
+obrigatório: um pull request ou um aviso de defeito ajudam tanto quanto.
 
 ## Licença
 

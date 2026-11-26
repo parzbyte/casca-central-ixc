@@ -1,0 +1,239 @@
+/* Casca no PC (só no espelho do site, não vai para o app).
+   A casca foi desenhada para celular; aqui ela ganha um desenho de tela larga a partir de 900 px:
+   - entrada: painel da marca à esquerda e o cartão de login à direita;
+   - logado: barra lateral fixa (montada pelo casca-pc.js com os itens do menu da Central) no lugar da grade
+     como único caminho, Início em duas colunas, faturas em grade, folhas de PIX/boleto como janela central.
+   Abaixo de 900 px nada aqui vale e a casca fica exatamente como no celular.
+   Os seletores começam por html[data-casca="on"] para vencer o CSS da casca, que entra depois deste arquivo. */
+
+#casca-pc-nav { display: none; }
+
+@media (min-width: 900px) {
+
+  /* entrada (login) */
+  html[data-casca="on"] #casca-login {
+    display: grid !important;
+    grid-template-columns: minmax(360px, 44%) minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    align-items: start;
+  }
+  html[data-casca="on"] #casca-login > .casca-login-topo {
+    grid-column: 1; grid-row: 1 / -1; align-self: stretch;
+    border-radius: 0 !important;
+    padding: 56px 56px !important;
+    justify-content: center; align-items: flex-start !important; gap: 18px !important;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.14) 0, rgba(255, 255, 255, 0) 42%),
+      radial-gradient(circle at 92% 96%, rgba(0, 0, 0, 0.22) 0, rgba(0, 0, 0, 0) 38%),
+      linear-gradient(160deg, var(--casca-primaria) 0%, var(--esp-funda) 62%, var(--esp-fim) 100%);
+  }
+  html[data-casca="on"] #casca-login .casca-logo.grande { height: 76px !important; padding: 12px 20px !important; border-radius: 20px !important; }
+  html[data-casca="on"] #casca-login .casca-logo.grande img { height: 52px !important; max-width: 260px !important; }
+  html[data-casca="on"] #casca-login .casca-login-ola { font-size: 30px !important; font-weight: 700; letter-spacing: -0.02em; opacity: 1; line-height: 1.15; max-width: 420px; }
+  html[data-casca="on"] #casca-login .casca-login-ola::after {
+    content: "Boleto, PIX, notas fiscais, contrato e atendimento: tudo aqui!";
+    display: block; margin-top: 14px; padding-top: 16px; max-width: 360px;
+    border-top: 3px solid var(--esp-acento); border-image: linear-gradient(90deg, var(--esp-acento) 0 56px, transparent 56px) 1;
+    font-size: 16px; font-weight: 500; letter-spacing: 0; line-height: 1.5; opacity: 0.88;
+  }
+  html[data-casca="on"] #casca-login > .casca-login-cartao,
+  html[data-casca="on"] #casca-login > .casca-login-visitante {
+    grid-column: 2; justify-self: center;
+    width: min(440px, calc(100% - 64px));
+  }
+  html[data-casca="on"] #casca-login > .casca-login-cartao {
+    grid-row: 2;
+    margin: 32px 0 16px !important;
+    padding: 32px 32px 28px !important;
+    box-shadow: 0 1px 2px rgba(23, 22, 27, 0.05), 0 18px 48px rgba(23, 22, 27, 0.10);
+  }
+  html[data-casca="on"] #casca-login > .casca-login-visitante { grid-row: 3; margin: 0 0 32px !important; padding: 18px 20px !important; }
+  html[data-casca="on"] #casca-login .casca-login-titulo { font-size: 26px !important; }
+  html[data-casca="on"] #casca-login .casca-login-form { gap: 16px !important; }
+  html[data-casca="on"] #casca-login .casca-btn { min-height: 50px; cursor: pointer; transition: filter .15s, transform .15s; }
+  html[data-casca="on"] #casca-login .casca-btn:hover { filter: brightness(1.08); }
+  html[data-casca="on"] #casca-login .casca-link:hover { text-decoration: underline; }
+
+  /* outras telas sem login (recuperar senha, cadastro): conteúdo centralizado */
+  html[data-casca="on"][data-casca-nova="entrada"] header .container > .row > [class*="col-"]:first-child { flex: 0 0 100%; max-width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  html[data-casca="on"][data-casca-nova="entrada"] header .container > .row > [class*="col-"]:not(:first-child) { display: none; }
+  html[data-casca="on"][data-casca-nova="entrada"] body > .container > .row { justify-content: center; }
+  html[data-casca="on"][data-casca-nova="entrada"] body > .container > .row > [class*="col-"]:first-child:has(.recovery-orientation, .login-contents) { flex: 0 0 auto; width: min(560px, 100%); max-width: 560px; }
+  html[data-casca="on"][data-casca-nova="entrada"] .recovery-orientation,
+  html[data-casca="on"][data-casca-nova="entrada"] .login-contents { width: 100% !important; margin-left: auto !important; margin-right: auto !important; padding: 32px 32px 28px !important; }
+
+  /* logado: barra lateral */
+  html[data-casca-pc] #casca-pc-nav {
+    display: flex; flex-direction: column; gap: 4px;
+    position: fixed; top: 0; left: 0; bottom: 0; width: 256px; z-index: 1030;
+    padding: 22px 14px 18px; overflow-y: auto;
+    background: #fff; border-right: 1px solid var(--casca-borda, #E8E8E6);
+    font-family: var(--casca-fonte, Inter, system-ui, sans-serif); -webkit-font-smoothing: antialiased;
+  }
+  html[data-casca-pc] #casca-pc-nav * { box-sizing: border-box; }
+  html[data-casca-pc] #casca-pc-nav svg { width: 20px; height: 20px; flex: 0 0 auto; }
+  /* a Central anima todo <circle> da página (o spinner dela): os ícones da barra ficam de fora, como os da casca */
+  html[data-casca-pc] #casca-pc-nav svg circle { animation: none !important; stroke: currentColor !important; stroke-width: 2px !important; stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+  html[data-casca-pc] .casca-pc-marca { display: block; padding: 4px 10px 2px; }
+  html[data-casca-pc] .casca-pc-marca img { display: block; max-width: 190px; max-height: 48px; width: auto; height: auto; }
+  html[data-casca-pc] .casca-pc-marca strong { font-size: 19px; color: var(--casca-texto, #111); }
+  html[data-casca-pc] .casca-pc-rotulo { padding: 6px 12px 14px; margin-bottom: 6px; border-bottom: 1px solid var(--casca-borda, #E8E8E6); font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--casca-texto-3, #6B6B68); }
+  html[data-casca-pc] .casca-pc-itens { display: flex; flex-direction: column; gap: 2px; }
+  html[data-casca-pc] #casca-pc-nav a[data-rota],
+  html[data-casca-pc] #casca-pc-nav .casca-pc-sair {
+    display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px 12px; border-radius: 12px;
+    font: 600 14.5px/1.2 var(--casca-fonte, Inter, system-ui, sans-serif); color: var(--casca-texto, #111) !important; text-decoration: none !important;
+    border: 0; background: transparent; width: 100%; text-align: left; cursor: pointer; transition: background .15s, color .15s;
+  }
+  html[data-casca-pc] #casca-pc-nav a[data-rota] svg, html[data-casca-pc] #casca-pc-nav .casca-pc-sair svg { color: var(--casca-texto-3, #6B6B68); transition: color .15s; }
+  html[data-casca-pc] #casca-pc-nav a[data-rota]:hover, html[data-casca-pc] #casca-pc-nav .casca-pc-sair:hover { background: #F4F4F2; }
+  html[data-casca-pc] #casca-pc-nav a[data-rota].ativo { background: var(--casca-primaria-clara); color: var(--casca-primaria-escura) !important; }
+  html[data-casca-pc] #casca-pc-nav a[data-rota].ativo svg { color: var(--casca-primaria); }
+  html[data-casca-pc] #casca-pc-nav .casca-pc-sair { margin-top: auto; border-top: 1px solid var(--casca-borda, #E8E8E6); border-radius: 0 0 12px 12px; padding-top: 16px; color: var(--casca-primaria-escura) !important; }
+  html[data-casca-pc] #casca-pc-nav .casca-pc-sair svg { color: var(--casca-primaria); }
+  html[data-casca-pc] #casca-pc-nav :focus-visible { outline: 2px solid var(--casca-primaria); outline-offset: 2px; }
+
+  /* conteúdo ao lado da barra */
+  html[data-casca-pc] body { padding-left: 256px !important; }
+
+  /* com a barra lateral, logo e "Meus dados/Sair" do topo ficam repetidos: o topo vira um cartão de boas-vindas */
+  html[data-casca-pc] #casca-raiz .casca-topo {
+    margin: 28px 40px 0; padding: 30px 32px 32px; border-radius: 24px; gap: 14px;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.16) 0, rgba(255, 255, 255, 0) 45%),
+      linear-gradient(135deg, var(--casca-primaria) 0%, var(--esp-funda) 100%);
+  }
+  html[data-casca-pc] #casca-raiz .casca-topo { flex-direction: row-reverse; align-items: center; justify-content: space-between; }
+  html[data-casca-pc] #casca-raiz .casca-topo .casca-logo, html[data-casca-pc] #casca-raiz .casca-topo .casca-logo-nome { display: none; }
+  html[data-casca-pc] #casca-raiz .casca-ola span { font-size: 18px; }
+  html[data-casca-pc] #casca-raiz .casca-ola strong { font-size: 32px; }
+
+  html[data-casca-pc] #casca-raiz .casca-cab-pagina { padding: 14px 40px; }
+  html[data-casca-pc] #casca-raiz .casca-cab-pagina h1 { font-size: 22px; }
+
+  /* corpo: largura confortável, alinhado à esquerda junto da barra */
+  html[data-casca-pc] #casca-raiz .casca-corpo { max-width: 1120px; margin: 0; padding: 24px 40px 40px; gap: 16px; }
+
+  /* Início: fatura à esquerda, atalhos à direita */
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo {
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: start; gap: 20px;
+    max-width: calc(1120px + 80px);
+  }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo > .casca-card { padding: 24px; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  html[data-casca-pc] #casca-raiz .casca-topo { max-width: 1120px; }
+
+  /* Minhas faturas: cartões em grade; links e nota ocupam a linha inteira */
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; gap: 16px;
+  }
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) > :not(.casca-fatura-item) { grid-column: 1 / -1; }
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) > .casca-mais { justify-self: center; }
+
+  /* Pagamento (um cartão só): coluna estreita */
+  html[data-casca-pc] #casca-raiz .casca-cab-pagina + .casca-corpo:has(> .casca-fatura:only-child) { max-width: 640px; }
+
+  /* moldura (telas da Central com o nosso cabeçalho): mesma margem e largura */
+  html[data-casca-pc][data-casca-nova="moldura"] #content > .container-fluid { max-width: 1200px; margin: 0 !important; padding: 24px 40px 40px !important; }
+  html[data-casca-pc][data-casca-nova="moldura"] #content-wrapper { margin-left: 0 !important; flex: 1 1 auto; min-width: 0; }
+  html[data-casca-pc][data-casca-nova="moldura"] #wrapper { padding-left: 0 !important; }
+
+  /* mouse: cursor e retorno visual que no toque não existem */
+  html[data-casca="on"] #casca-raiz :is(.casca-btn, .casca-atalho, .casca-link, .casca-mais, .casca-icone-btn, .casca-outras > summary) { cursor: pointer; }
+  html[data-casca="on"] #casca-raiz .casca-atalho { transition: border-color .15s, box-shadow .15s, transform .15s; min-height: 108px; font-size: 13.5px; }
+  html[data-casca="on"] #casca-raiz .casca-atalho:hover { border-color: var(--casca-primaria); box-shadow: 0 6px 20px rgba(23, 22, 27, 0.10); transform: translateY(-1px); }
+  html[data-casca="on"] #casca-raiz .casca-btn { transition: filter .15s; }
+  html[data-casca="on"] #casca-raiz .casca-btn:hover { filter: brightness(1.08); }
+  html[data-casca="on"] #casca-raiz .casca-btn.sec:hover { border-color: var(--casca-primaria); filter: none; }
+  html[data-casca="on"] #casca-raiz :is(.casca-link, .casca-mais):hover { text-decoration: underline; }
+  html[data-casca="on"] #casca-raiz .casca-icone-btn:hover { background: rgba(255, 255, 255, 0.26); }
+  html[data-casca="on"] #casca-raiz .casca-cab-pagina .casca-icone-btn:hover { background: #F1F1EF; }
+  html[data-casca="on"] :is(#casca-raiz, #casca-login, #casca-pix) :focus-visible { outline: 2px solid var(--casca-primaria); outline-offset: 2px; }
+
+  /* folhas de PIX e boleto: no PC viram janela no meio da tela, não gaveta que sobe do pé */
+  html[data-casca="on"] #casca-pix .casca-folha-painel,
+  html[data-casca="on"] #casca-folha .casca-folha-painel {
+    top: 50%; bottom: auto; left: 50%; right: auto; margin: 0 !important; width: 480px; max-height: calc(100vh - 48px);
+    border-radius: 24px; padding: 24px 24px 22px;
+    transform: translate(-50%, -46%); opacity: 0; visibility: hidden;
+    transition: transform .22s cubic-bezier(.2, .8, .2, 1), opacity .18s, visibility 0s .22s;
+    box-shadow: 0 24px 64px rgba(17, 17, 17, 0.28);
+  }
+  html[data-casca="on"] #casca-pix.aberta .casca-folha-painel,
+  html[data-casca="on"] #casca-folha.aberta .casca-folha-painel { transform: translate(-50%, -50%); opacity: 1; visibility: visible; transition: transform .22s cubic-bezier(.2, .8, .2, 1), opacity .18s; }
+  html[data-casca="on"] .casca-folha-painel::before { display: none; }
+  html[data-casca="on"] #casca-pix .casca-qr img { width: 240px; height: 240px; }
+
+  /* avisos no canto, sem cobrir a tela toda */
+  html[data-casca="on"] #casca-avisos { left: auto; right: 24px; top: 20px; width: 380px; }
+
+  /* modais da própria Central (logout, assinatura) com largura de PC */
+  html[data-casca="on"] .modal-dialog { max-width: 520px; }
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+  html[data-casca="on"] #casca-raiz .casca-atalho:hover { transform: none; }
+  html[data-casca="on"] #casca-pix .casca-folha-painel, html[data-casca="on"] #casca-folha .casca-folha-painel { transition: none !important; }
+}
+
+/* telas bem largas: Início e faturas não esticam além do confortável */
+@media (min-width: 1600px) {
+  html[data-casca-pc] #casca-raiz .casca-topo { margin-left: 56px; }
+  html[data-casca-pc] #casca-raiz .casca-corpo { padding-left: 56px; padding-right: 56px; }
+  html[data-casca-pc] #casca-raiz .casca-cab-pagina { padding-left: 56px; }
+}
+
+/* PC estreito (notebook pequeno, janela dividida): Início em uma coluna para os atalhos não ficarem espremidos */
+@media (min-width: 900px) and (max-width: 1179px) {
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo { grid-template-columns: minmax(0, 1fr); max-width: 800px; }
+  html[data-casca-pc] #casca-raiz .casca-topo { max-width: 720px; }
+}
+
+/* PC de verdade 
+   O conteúdo ocupa a tela ao lado da barra, em vez de ficar numa coluna de celular com sobra à direita. */
+@media (min-width: 900px) {
+  html[data-casca-pc] #casca-raiz .casca-topo { max-width: none !important; margin: 24px 40px 0; padding: 24px 32px; }
+  html[data-casca-pc] #casca-raiz .casca-corpo { max-width: none !important; padding: 20px 40px 40px; }
+  html[data-casca-pc] #casca-raiz .casca-cab-pagina { max-width: none !important; }
+
+  /* Início: fatura à esquerda, atalhos em faixa de 4 à direita; as duas colunas com a mesma altura */
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo {
+    display: grid; grid-template-columns: minmax(380px, 1fr) minmax(0, 1.55fr); align-items: stretch; gap: 20px; max-width: none !important;
+  }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo > :not(.casca-card):not(.casca-grade) { grid-column: 1 / -1; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo > .casca-card { display: flex; flex-direction: column; justify-content: center; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-grade {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 14px; align-content: stretch;
+  }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-atalho { min-height: 132px; height: 100%; font-size: 14.5px; }
+  /* sem buraco na última linha: o último atalho estica até o fim */
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-grade > :last-child:nth-child(4n+3) { grid-column: span 2; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-grade > :last-child:nth-child(4n+2) { grid-column: span 3; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo .casca-grade > :last-child:nth-child(4n+1) { grid-column: span 4; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo > .casca-card { padding: 28px 30px; }
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo > .casca-card .casca-valor { font-size: 40px; }
+
+  /* Minhas faturas: cada fatura numa faixa larga, dados à esquerda e pagamento à direita */
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) { display: flex !important; flex-direction: column; align-items: stretch !important; gap: 14px; max-width: 1180px !important; }
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) > .casca-nota { align-self: center; }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item > .casca-fatura-cab { padding-right: 40px; border-right: 1px solid var(--casca-borda, #E8E8E6); }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); align-items: center; column-gap: 40px; padding: 22px 28px !important;
+  }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item > .casca-fatura-cab { align-self: center; }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item > .casca-fatura-cab strong { font-size: 18px; }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item > .casca-fatura-cab .casca-valor-sm { font-size: 22px; }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item > :not(.casca-fatura-cab) { margin-top: 0 !important; }
+  html[data-casca-pc] #casca-raiz .casca-fatura-item:not(:has(> .casca-acoes-fatura)) { grid-template-columns: minmax(0, 1fr); }
+  html[data-casca-pc] #casca-raiz .casca-corpo:has(.casca-fatura-item) > .casca-mais { align-self: center; }
+
+  /* entrada: logo maior e tudo centralizado no painel da marca */
+  html[data-casca="on"] #casca-login > .casca-login-topo { align-items: center !important; text-align: center; gap: 26px !important; }
+  html[data-casca="on"] #casca-login .casca-logo.grande { height: auto !important; padding: 18px !important; border-radius: 28px !important; box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22); }
+  html[data-casca="on"] #casca-login .casca-logo.grande img { height: 150px !important; max-width: 300px !important; width: auto !important; }
+  html[data-casca="on"] #casca-login .casca-login-ola { margin-left: auto; margin-right: auto; }
+  html[data-casca="on"] #casca-login .casca-login-ola::after { margin-left: auto; margin-right: auto; border-image: linear-gradient(90deg, transparent calc(50% - 28px), var(--esp-acento) calc(50% - 28px) calc(50% + 28px), transparent calc(50% + 28px)) 1; }
+}
+@media (min-width: 900px) and (max-width: 1179px) {
+  html[data-casca-pc] #casca-raiz .casca-topo + .casca-corpo { grid-template-columns: minmax(0, 1fr); }
+}

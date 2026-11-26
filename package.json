@@ -7,7 +7,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "empacotar": "node ferramentas/empacotar.mjs",
-    "simulador": "node simulador/simulador.mjs"
+    "simulador": "node simulador/simulador.mjs",
+    "test": "node ferramentas/empacotar.mjs && node testes/testa-gerador.mjs"
   },
   "engines": { "node": ">=22" }
 }

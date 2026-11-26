@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amostra da Central com a casca</title>
+<style>html, body { margin: 0; background: #f4f4f1; font-family: Inter, system-ui, sans-serif; } #original { padding: 24px; color: #555; }</style>
+</head>
+<body>
+<div class="main-panel"><div class="content"><div id="original">Carregando a amostra...</div></div></div>
+<script>
+// Central de mentira, no formato da Central antiga do IXC (Vue com router/app globais), só com dados de exemplo.
+// O gerador manda a cor e a logo por postMessage; aqui a casca de verdade é carregada por cima.
+var __SERVER__ = location.origin + '/central_assinante_web';
+var $ = function () { return { modal: function () {} }; }; $.cookie = function () {}; $.post = function () { return { fail: function () { return this; } }; };
+var hoje = new Date(), venc = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() + 6);
+var dataBr = function (d) { return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(); };
+var fatura = function (id, valor, quando, status) { return { id: id, documento: String(80000 + id), status: status || 'A', valor: valor, valor_aberto: status === 'R' ? '0,00' : valor, data_vencimento: dataBr(quando), linha_digitavel: '00190.00009 01234.567890 12345.678901 2 99990000009990' }; };
+var passado = new Date(hoje.getFullYear(), hoje.getMonth() - 1, venc.getDate());
+var contrato = { id: '1024', contrato: 'Fibra 500 Mega', descricao_aux_plano_venda: 'Fibra 500 Mega', status_internet: 'A', valor_unitario: '99,90', data_ativacao: '10/03/2025' };
+var inst = { user: '', password: '', loading: false,
+  faturas: { notifi_dash: [fatura(2, '99,90', venc)], faturas: { '1024': fatura(2, '99,90', venc) }, recebidas: [fatura(1, '99,90', passado, 'R')] },
+  planos: { ativo: [contrato], planos: [contrato] },
+  consumos: { consumo_mensal: [{ plano: 'Fibra 500 Mega', endereco: 'Rua das Flores', numero_endereco: '120' }] } };
+window.app = { login: false, loading: false, cliente_nome: 'Maria Souza', tipo_login: 'cpf', showSpeedTest: false };
+window.router = { history: { current: { path: '/central_assinante_web/', matched: [{ instances: { default: inst } }] } },
+  replace: function (p) { this.history.current.path = String(p).replace(/\/index\.html$/, '/'); }, push: function (p) { this.replace(p); } };
+function HotsiteWeb() {}
+HotsiteWeb.prototype.iniciarSessao = function () {};
+try {
+  sessionStorage.setItem('dados', JSON.stringify({ razao: 'Maria Souza', fantasia: 'Maria Souza', cnpj_cpf: '00000000000' }));
+  sessionStorage.setItem('parametros', JSON.stringify({ habilitar_financeiro: 'S', habilitar_suporte: 'S', habilitar_planos: 'S', habilitar_consumo: 'S' }));
+} catch (e) {}
+
+// a casca lê a rota do endereço: sem o "index.html" no fim, a amostra abre no Início
+try { if (/index\.html$/.test(location.pathname)) history.replaceState(null, '', location.pathname.replace(/index\.html$/, '') + location.search); } catch (e) {}
+
+var carregado = false;
+function carregar(m) {
+  if (carregado) return; carregado = true;
+  var cfg = (m && m.cfg) || { primaria: '#E11D2E', nome: 'Provedor' };
+  window.__CASCA_CFG__ = cfg;
+  if (m && m.funda) document.documentElement.style.cssText += '--esp-funda:' + m.funda + ';--esp-fim:' + m.fim + ';--esp-acento:' + cfg.primaria;
+  var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = '../casca-pc.css'; document.head.appendChild(css);
+  var s = document.createElement('script'); s.src = '../casca-app.js';
+  s.onload = function () { var p = document.createElement('script'); p.src = '../casca-pc.js'; document.body.appendChild(p); };
+  document.body.appendChild(s);
+}
+window.addEventListener('message', function (e) { if (e.data && e.data.tipo === 'casca-cfg') carregar(e.data); });
+if (window.parent !== window) window.parent.postMessage({ tipo: 'amostra-pronta' }, '*');
+setTimeout(function () { if (window.parent === window) carregar(null); }, 200);
+</script>
+</body>
+</html>

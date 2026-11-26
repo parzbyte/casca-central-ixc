@@ -3,30 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gerador da casca da Central</title>
+<title>Gerador da casca da Central | Parzbyte</title>
 <style>
   :root {
-    --fundo: #f4f4f1; --sup: #ffffff; --tinta: #17181c; --sec: #5b5f6b; --fio: #e2e2dc; --erro: #b42318; --ok: #067647;
-    --cor: #2563EB; --cor-escura: #1a4bb0; --cor-clara: #e9effd;
-    --raio: 18px; --sombra: 0 1px 2px rgba(16,18,27,.06), 0 8px 24px rgba(16,18,27,.06);
+    --marca: #E11D2E; --marca-escura: #B5121F; --marca-clara: #fde8ea; --grafite: #17181c;
+    --fundo: #f5f5f2; --sup: #ffffff; --tinta: #17181c; --sec: #5b5f6b; --fio: #e3e3dd; --erro: #b42318; --ok: #067647;
+    --raio: 20px; --sombra: 0 1px 2px rgba(16,18,27,.05), 0 10px 30px rgba(16,18,27,.07);
     font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif; color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --fundo: #111215; --sup: #1b1c21; --tinta: #f1f1ee; --sec: #a3a6b0; --fio: #2c2e35; --erro: #f97066; --ok: #47cd89; --sombra: none; }
+    :root { --fundo: #0f1013; --sup: #1a1b20; --tinta: #f1f1ee; --sec: #a3a6b0; --fio: #2b2d34; --erro: #f97066; --ok: #47cd89; --marca-clara: #3a1418; --sombra: none; }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--fundo); color: var(--tinta); line-height: 1.5; }
-  main { max-width: 1040px; margin: 0 auto; padding: 40px 16px 64px; display: grid; gap: 28px; }
-  header h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; margin: 0 0 8px; letter-spacing: -.02em; }
-  header p { margin: 0; color: var(--sec); max-width: 62ch; }
-  .grade { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
-  @media (max-width: 860px) { .grade { grid-template-columns: 1fr; } .previa { position: static; } }
-  form { background: var(--sup); border-radius: var(--raio); box-shadow: var(--sombra); padding: 24px; display: grid; gap: 22px; border: 1px solid var(--fio); }
+  .barra { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--fundo) 86%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--fio); }
+  .barra div { max-width: 1180px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .marca { display: flex; align-items: center; text-decoration: none; }
+  .marca svg { height: 30px; width: auto; display: block; }
+  .marca .escura { display: none; }
+  @media (prefers-color-scheme: dark) { .marca .clara { display: none; } .marca .escura { display: block; } }
+  .atalho-pix { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; background: var(--marca); color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap; }
+  .atalho-pix::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  .atalho-pix:hover { background: var(--marca-escura); }
+  main { max-width: 1180px; margin: 0 auto; padding: 36px 16px 64px; display: grid; gap: 32px; }
+  .topo h1 { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 12px; letter-spacing: -.03em; max-width: 20ch; }
+  .topo h1 em { font-style: normal; color: var(--marca); }
+  .topo p { margin: 0; color: var(--sec); max-width: 64ch; font-size: 17px; }
+  .topo .passos { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .topo .passos li { background: var(--sup); border: 1px solid var(--fio); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; }
+  .topo .passos b { color: var(--marca); margin-right: 6px; }
+  .grade { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+  @media (max-width: 900px) { .grade { grid-template-columns: 1fr; } .celular-caixa { position: static !important; } }
+  form { background: var(--sup); border-radius: var(--raio); box-shadow: var(--sombra); padding: 26px; display: grid; gap: 22px; border: 1px solid var(--fio); }
   .campo { display: grid; gap: 6px; }
   label, .rotulo { font-weight: 600; font-size: 15px; }
   .ajuda { color: var(--sec); font-size: 13.5px; margin: 0; }
   input[type=text], input[type=url] { font: inherit; font-size: 16px; color: var(--tinta); background: var(--fundo); border: 1px solid var(--fio); border-radius: 12px; padding: 12px 14px; width: 100%; min-height: 48px; }
-  input:focus-visible, button:focus-visible, .arquivo:focus-within { outline: 3px solid color-mix(in srgb, var(--cor) 45%, transparent); outline-offset: 2px; }
+  input:focus-visible, button:focus-visible, .arquivo:focus-within, a:focus-visible { outline: 3px solid color-mix(in srgb, var(--marca) 45%, transparent); outline-offset: 2px; }
   .linha { display: flex; gap: 10px; align-items: center; }
   input[type=color] { width: 56px; height: 48px; border: 1px solid var(--fio); border-radius: 12px; padding: 4px; background: var(--fundo); cursor: pointer; flex: none; }
   .selo { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; width: fit-content; }
@@ -37,64 +50,64 @@
   .arquivo input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   .arquivo .mini { width: 44px; height: 44px; border-radius: 10px; background: var(--sup) center / contain no-repeat; border: 1px solid var(--fio); flex: none; }
   .arquivo span { font-size: 14.5px; color: var(--sec); }
-  .opcoes { display: grid; gap: 10px; }
   .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; font-size: 14.5px; cursor: pointer; }
-  .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--cor); flex: none; }
-  button.gerar { font: inherit; font-weight: 700; font-size: 16px; color: #fff; background: var(--cor-escura); border: 0; border-radius: 999px; min-height: 54px; padding: 0 24px; cursor: pointer; }
-  button.gerar:hover { filter: brightness(1.08); }
+  .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--marca); flex: none; }
+  button.gerar { font: inherit; font-weight: 700; font-size: 16px; color: #fff; background: var(--marca); border: 0; border-radius: 999px; min-height: 56px; padding: 0 24px; cursor: pointer; }
+  button.gerar:hover { background: var(--marca-escura); }
   .erro-geral { color: var(--erro); font-weight: 600; margin: 0; }
   .erro-geral:empty { display: none; }
-  .previa { position: sticky; top: 24px; display: grid; gap: 12px; justify-items: center; }
-  .previa .rotulo { color: var(--sec); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
-  .celular { width: 280px; height: 560px; border-radius: 38px; background: #0e0f12; padding: 10px; box-shadow: var(--sombra); }
-  .tela { width: 100%; height: 100%; border-radius: 30px; overflow: hidden; background: #f4f4f1; display: flex; flex-direction: column; color: #17181c; }
-  .tela .topo { background: linear-gradient(160deg, var(--cor), var(--cor-escura)); padding: 46px 20px 26px; display: grid; gap: 14px; }
-  .tela .logo { height: 44px; display: flex; align-items: center; }
-  .tela .logo img { max-height: 44px; max-width: 180px; object-fit: contain; background: #fff; border-radius: 10px; padding: 6px 10px; }
-  .tela .logo.branca img { background: none; padding: 0; filter: brightness(0) invert(1); }
-  .tela .logo b { color: #fff; font-size: 20px; }
-  .tela .topo strong { color: #fff; font-size: 21px; line-height: 1.2; }
-  .tela .corpo { padding: 18px 16px; display: grid; gap: 10px; }
-  .tela .caixa { background: #fff; border-radius: 16px; padding: 14px; display: grid; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-  .tela .caixa small { color: #5b5f6b; font-size: 11.5px; }
-  .tela .entrada { height: 36px; border-radius: 10px; background: #f4f4f1; border: 1px solid #e2e2dc; }
-  .tela .botao { height: 40px; border-radius: 999px; background: var(--cor-escura); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
-  .tela .claro { background: var(--cor-clara); border-radius: 16px; padding: 12px 14px; font-size: 12.5px; color: var(--cor-escura); font-weight: 600; }
-  section.pronto { background: var(--sup); border: 1px solid var(--fio); border-radius: var(--raio); padding: 24px; box-shadow: var(--sombra); display: grid; gap: 12px; }
+  .amostra-rotulo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .amostra-rotulo span { color: var(--sec); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .amostra-rotulo small { color: var(--sec); font-size: 12.5px; }
+  .celular-caixa { position: sticky; top: 84px; display: grid; gap: 12px; justify-items: center; }
+  .celular { width: 312px; height: 662px; border-radius: 44px; background: #0d0e11; padding: 11px; box-shadow: 0 24px 60px rgba(0,0,0,.22); position: relative; }
+  .celular .vidro { width: 290px; height: 640px; border-radius: 34px; overflow: hidden; background: #f4f4f1; position: relative; }
+  .celular iframe { width: 390px; height: 861px; border: 0; transform: scale(.7436); transform-origin: 0 0; position: absolute; inset: 0 auto auto 0; background: #f4f4f1; }
+  .pc { background: var(--sup); border: 1px solid var(--fio); border-radius: var(--raio); box-shadow: var(--sombra); padding: 22px; display: grid; gap: 14px; }
+  .janela { border-radius: 14px; overflow: hidden; border: 1px solid var(--fio); background: #f4f4f1; }
+  .janela .cab { height: 36px; background: #e9e9e4; display: flex; align-items: center; gap: 7px; padding: 0 14px; }
+  @media (prefers-color-scheme: dark) { .janela .cab { background: #24262c; } }
+  .janela .cab i { width: 11px; height: 11px; border-radius: 50%; background: #c9c9c2; }
+  .janela .cab i:nth-child(1) { background: #ff5f57; } .janela .cab i:nth-child(2) { background: #febc2e; } .janela .cab i:nth-child(3) { background: #28c840; }
+  .janela .cab code { margin-left: 12px; font-size: 12.5px; background: transparent; border: 0; color: var(--sec); }
+  .janela .tela { position: relative; width: 100%; aspect-ratio: 1366 / 768; overflow: hidden; }
+  .janela iframe { width: 1366px; height: 768px; border: 0; transform-origin: 0 0; position: absolute; inset: 0 auto auto 0; }
+  section.pronto { background: var(--sup); border: 1px solid var(--fio); border-left: 5px solid var(--ok); border-radius: var(--raio); padding: 24px; box-shadow: var(--sombra); display: grid; gap: 12px; }
   section.pronto[hidden] { display: none; }
   section.pronto h2 { margin: 0; font-size: 21px; }
   section.pronto ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
   code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .92em; background: var(--fundo); border: 1px solid var(--fio); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere; }
-  .apoie { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 26px 28px; border-radius: 24px;
-    background: radial-gradient(120% 140% at 0% 0%, #F0394A 0%, #E11D2E 45%, #A3101E 100%); color: #fff; box-shadow: 0 14px 40px rgba(163,16,30,.28); }
+  .apoie { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 28px 30px; border-radius: 26px;
+    background: radial-gradient(120% 140% at 0% 0%, #F0394A 0%, #E11D2E 45%, #A3101E 100%); color: #fff; box-shadow: 0 14px 40px rgba(163,16,30,.28); scroll-margin-top: 80px; }
   .apoie .selo-pix { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; width: fit-content; }
-  .apoie h2 { margin: 12px 0 6px; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.12; letter-spacing: -.02em; }
-  .apoie p { margin: 0; color: rgba(255,255,255,.86); max-width: 52ch; }
+  .apoie h2 { margin: 12px 0 6px; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.1; letter-spacing: -.02em; }
+  .apoie p { margin: 0; color: rgba(255,255,255,.88); max-width: 54ch; }
   .apoie .chave { margin-top: 16px; display: grid; gap: 4px; }
-  .apoie .chave small { color: rgba(255,255,255,.7); font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
-  .apoie .chave b { font: 800 clamp(22px, 3vw, 28px)/1.1 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: .01em; overflow-wrap: anywhere; }
+  .apoie .chave small { color: rgba(255,255,255,.72); font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+  .apoie .chave b { font: 800 clamp(22px, 3vw, 30px)/1.1 ui-monospace, "Cascadia Mono", Consolas, monospace; overflow-wrap: anywhere; }
   .apoie .botoes { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
   .apoie button { font: inherit; font-weight: 700; font-size: 15px; min-height: 48px; padding: 0 20px; border-radius: 999px; cursor: pointer; border: 0; }
-  .apoie button.pri { background: #ffffff; color: #B5121F; }
+  .apoie button.pri { background: #ffffff; color: var(--marca-escura); }
   .apoie button.sec { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); }
   .apoie button:hover { filter: brightness(1.06); }
-  .apoie .qr { background: #fff; border-radius: 20px; padding: 12px; width: 196px; display: grid; gap: 6px; justify-items: center; }
-  .apoie .qr svg { width: 172px; height: 172px; display: block; }
+  .apoie .qr { background: #fff; border-radius: 22px; padding: 12px; width: 212px; display: grid; gap: 6px; justify-items: center; }
+  .apoie .qr svg { width: 188px; height: 188px; display: block; }
   .apoie .qr span { color: #17181c; font-size: 12.5px; font-weight: 600; }
-  @media (max-width: 640px) { .apoie { grid-template-columns: 1fr; padding: 22px 18px; } .apoie .qr { justify-self: center; order: 2; } }
-  .atalho-pix { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 8px 14px; border-radius: 999px; background: color-mix(in srgb, #E11D2E 12%, transparent); color: #B5121F; font-weight: 700; font-size: 14px; text-decoration: none; }
-  .atalho-pix::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #E11D2E; }
-  @media (prefers-color-scheme: dark) { .atalho-pix { color: #ff8a94; } }
-  footer { color: var(--sec); font-size: 13.5px; }
-  footer a { color: inherit; }
+  @media (max-width: 640px) { .apoie { grid-template-columns: 1fr; padding: 22px 18px; } .apoie .qr { justify-self: center; } .barra .atalho-pix span { display: none; } }
+  footer { color: var(--sec); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; border-top: 1px solid var(--fio); padding-top: 20px; }
+  footer b { color: var(--tinta); }
 </style>
 </head>
 <body>
+<div class="barra"><div>
+  <a class="marca" href="#" aria-label="Parzbyte"><span class="clara"><!--__LOGO_MARCA__--></span><span class="escura"><!--__LOGO_MARCA_NEG__--></span></a>
+  <a class="atalho-pix" href="#apoie">Apoie com Pix<span>: é de graça</span></a>
+</div></div>
 <main>
-  <header>
-    <h1>Gerador da casca da Central do Assinante</h1>
-    <p>Coloque o link da sua Central do IXC, a logo e a cor. O gerador descobre se é a Central antiga ou a nova e monta a pasta para subir no site do provedor. Tudo acontece neste navegador: nada é enviado para servidor nenhum.</p>
-    <a class="atalho-pix" href="#apoie">De graça e aberto. Quer apoiar? Veja o Pix</a>
+  <header class="topo">
+    <h1>A Central do IXC com a <em>cara do seu provedor</em>.</h1>
+    <p>Coloque o link da sua Central, a logo e a cor. O gerador descobre se é a Central antiga ou a nova, mostra como vai ficar no celular e no computador e monta a pasta para subir no site. Tudo acontece neste navegador: nada é enviado para servidor nenhum.</p>
+    <ol class="passos"><li><b>1</b>Link da Central</li><li><b>2</b>Logo e cor</li><li><b>3</b>Baixar e subir no site</li></ol>
   </header>
 
   <div class="grade">
@@ -119,8 +132,8 @@
 
       <div class="campo">
         <label for="corTxt">Cor principal</label>
-        <div class="linha"><input id="cor" type="color" value="#2563eb" aria-label="Escolher a cor"><input id="corTxt" type="text" value="#2563EB" maxlength="7" spellcheck="false"></div>
-        <p class="ajuda">A cor da marca. Os tons mais claros e mais escuros saem dela.</p>
+        <div class="linha"><input id="cor" type="color" value="#e11d2e" aria-label="Escolher a cor"><input id="corTxt" type="text" value="#E11D2E" maxlength="7" spellcheck="false"></div>
+        <p class="ajuda">A cor da marca. Os tons mais claros e mais escuros saem dela. A amostra ao lado muda junto.</p>
       </div>
 
       <div class="campo">
@@ -129,25 +142,24 @@
         <p class="ajuda">Só o domínio. A versão com www entra sozinha.</p>
       </div>
 
-      <div class="opcoes">
-        <label class="check"><input id="semCartao" type="checkbox"> O provedor não recebe por cartão (esconde o pagamento recorrente no cartão)</label>
-      </div>
+      <label class="check"><input id="semCartao" type="checkbox"> O provedor não recebe por cartão (esconde o pagamento recorrente no cartão)</label>
 
       <p class="erro-geral" id="erro" role="alert"></p>
       <button class="gerar" type="submit">Gerar e baixar a pasta</button>
     </form>
 
-    <aside class="previa" aria-label="Prévia">
-      <span class="rotulo">Prévia da entrada</span>
-      <div class="celular"><div class="tela">
-        <div class="topo"><div class="logo" id="pLogo"><b id="pNome">Meu Provedor</b></div><strong>Central do Assinante</strong></div>
-        <div class="corpo">
-          <div class="caixa"><small>CPF ou CNPJ</small><div class="entrada"></div><small>Senha</small><div class="entrada"></div><div class="botao">Entrar</div></div>
-          <div class="claro">Faturas, PIX e boleto num lugar só</div>
-        </div>
-      </div></div>
+    <aside class="celular-caixa" aria-label="Amostra no celular">
+      <div class="amostra-rotulo"><span>Amostra real · celular</span></div>
+      <div class="celular"><div class="vidro"><iframe id="amostraCel" title="Amostra da Central no celular"></iframe></div></div>
+      <small class="ajuda">A casca de verdade, com dados de exemplo. Pode tocar.</small>
     </aside>
   </div>
+
+  <section class="pc" aria-label="Amostra no computador">
+    <div class="amostra-rotulo"><span>Amostra real · computador</span><small>Os mesmos dados de exemplo, na tela larga</small></div>
+    <div class="janela"><div class="cab"><i></i><i></i><i></i><code id="pcEndereco">seuprovedor.com.br/central_assinante_web/</code></div>
+      <div class="tela" id="pcTela"><iframe id="amostraPc" title="Amostra da Central no computador"></iframe></div></div>
+  </section>
 
   <section class="pronto" id="pronto" hidden aria-live="polite">
     <h2>Pasta pronta</h2>
@@ -174,7 +186,7 @@
     <div class="qr"><!--__PIX_QR__--><span>Aponte a câmera do banco</span></div>
   </section>
 
-  <footer>Casca da Central do IXC, código aberto para uso livre e sem revenda. Não tem ligação com a IXC Soft.</footer>
+  <footer><span>Feito pela <b>Parzbyte</b>. Código aberto para uso livre e sem revenda.</span><span>Não tem ligação com a IXC Soft.</span></footer>
 </main>
 
 <script>window.__ARQUIVOS__ = /*__ARQUIVOS__*/null;</script>
@@ -184,53 +196,69 @@
   const $ = id => document.getElementById(id);
   const G = window.GeradorCasca, A = window.__ARQUIVOS__;
   const HEX = /^#[0-9a-f]{6}$/i;
+  const AMOSTRA = 'amostra/central_assinante_web/index.html';
   let logo = null;
 
   const mistura = (hex, com, q) => '#' + hex.slice(1).match(/../g).map((v, i) => Math.round(parseInt(v, 16) + (parseInt(com.slice(1 + i * 2, 3 + i * 2), 16) - parseInt(v, 16)) * q).toString(16).padStart(2, '0')).join('');
-  function pintar(cor) {
-    if (!HEX.test(cor)) return;
-    const r = document.documentElement.style;
-    r.setProperty('--cor', cor); r.setProperty('--cor-escura', mistura(cor, '#000000', 0.28)); r.setProperty('--cor-clara', mistura(cor, '#ffffff', 0.88));
+  const corAtual = () => { let c = $('corTxt').value.trim(); if (/^[0-9a-f]{6}$/i.test(c)) c = '#' + c; return HEX.test(c) ? c.toUpperCase() : '#E11D2E'; };
+
+  // a configuração que a casca vai receber, a mesma que o espelho manda (na amostra a logo vai como data:)
+  function cfgAmostra() {
+    const cor = corAtual(), nome = $('nome').value.trim();
+    const cfg = { primaria: cor, nome: nome || 'Parzbyte' };
+    if (logo) { cfg.logo = logo.dataUrl; if ($('branca').checked) cfg.logoEstilo = 'branca'; }
+    else if (!nome) { cfg.logo = '../../marca/parzbyte-logo.svg'; cfg.logoBranca = '../../marca/parzbyte-logo-branco.svg'; }
+    if ($('semCartao').checked) cfg.cartao = false;
+    const funda = mistura(cor, '#000000', 0.45);
+    return { tipo: 'casca-cfg', cfg, funda, fim: mistura(funda, '#111111', 0.55) };
   }
+  window.addEventListener('message', e => {
+    if (!e.data || e.data.tipo !== 'amostra-pronta') return;
+    if (e.source === $('amostraCel').contentWindow || e.source === $('amostraPc').contentWindow) e.source.postMessage(cfgAmostra(), '*');
+  });
+  let espera = null, versao = 0;
+  function recarregar() {
+    clearTimeout(espera);
+    espera = setTimeout(() => { versao++; for (const id of ['amostraCel', 'amostraPc']) { const f = $(id); try { f.contentWindow.location.replace(new URL(AMOSTRA + '?v=' + versao, location.href).href); } catch (e) { f.src = AMOSTRA + '?v=' + versao; } } }, 450);
+  }
+  const escalaPc = () => { const w = $('pcTela').clientWidth; $('amostraPc').style.transform = 'scale(' + (w / 1366) + ')'; };
+  new ResizeObserver(escalaPc).observe($('pcTela'));
+
   function tipo() {
     const v = $('central').value.trim(), s = $('tipo');
     if (!v) { s.textContent = ''; return; }
     const i = G.centralDoLink(v);
     s.className = 'selo ' + (i ? 'ok' : 'erro');
     s.textContent = i ? G.TIPOS[i.tipo].nome : 'Não parece um link da Central do IXC: ele precisa começar com https:// e ter /central_assinante_web/ ou /central-assinante/.';
-  }
-  function previaLogo() {
-    const p = $('pLogo');
-    p.classList.toggle('branca', $('branca').checked);
-    p.innerHTML = '';
-    if (logo) { const img = new Image(); img.alt = ''; img.src = logo.url; p.appendChild(img); }
-    else { const b = document.createElement('b'); b.textContent = $('nome').value.trim() || 'Meu Provedor'; p.appendChild(b); }
+    if (i) $('pcEndereco').textContent = ($('site').value.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'seuprovedor.com.br') + G.TIPOS[i.tipo].espelho + '/';
   }
 
   $('central').addEventListener('input', tipo);
-  $('nome').addEventListener('input', previaLogo);
-  $('branca').addEventListener('change', previaLogo);
-  $('cor').addEventListener('input', e => { $('corTxt').value = e.target.value.toUpperCase(); pintar(e.target.value); });
-  $('corTxt').addEventListener('input', e => { let v = e.target.value.trim(); if (/^[0-9a-f]{6}$/i.test(v)) v = '#' + v; if (HEX.test(v)) { $('cor').value = v.toLowerCase(); pintar(v); } });
+  $('site').addEventListener('input', tipo);
+  $('nome').addEventListener('input', recarregar);
+  $('branca').addEventListener('change', recarregar);
+  $('semCartao').addEventListener('change', recarregar);
+  $('cor').addEventListener('input', e => { $('corTxt').value = e.target.value.toUpperCase(); recarregar(); });
+  $('corTxt').addEventListener('input', e => { let v = e.target.value.trim(); if (/^[0-9a-f]{6}$/i.test(v)) v = '#' + v; if (HEX.test(v)) { $('cor').value = v.toLowerCase(); recarregar(); } });
   $('logo').addEventListener('change', async e => {
     const f = e.target.files[0]; $('erro').textContent = '';
     if (!f) return;
     if (!G.LOGOS[f.type]) { $('erro').textContent = 'A logo precisa ser PNG, JPG, WebP ou SVG.'; return; }
     if (f.size > 1024 * 1024) { $('erro').textContent = 'A logo passou de 1 MB. Use uma versão menor.'; return; }
-    if (logo) URL.revokeObjectURL(logo.url);
-    logo = { tipo: f.type, bytes: new Uint8Array(await f.arrayBuffer()), url: URL.createObjectURL(f) };
-    $('logoMini').style.backgroundImage = 'url("' + logo.url + '")';
+    const bytes = new Uint8Array(await f.arrayBuffer());
+    const dataUrl = await new Promise(r => { const l = new FileReader(); l.onload = () => r(l.result); l.readAsDataURL(f); });
+    logo = { tipo: f.type, bytes, dataUrl };
+    $('logoMini').style.backgroundImage = 'url("' + dataUrl + '")';
     $('logoTxt').textContent = f.name;
-    previaLogo();
+    recarregar();
   });
 
   $('form').addEventListener('submit', e => {
     e.preventDefault();
     $('erro').textContent = '';
     try {
-      let cor = $('corTxt').value.trim(); if (/^[0-9a-f]{6}$/i.test(cor)) cor = '#' + cor;
       const r = G.gerar({
-        central: $('central').value, nome: $('nome').value, cor: cor.toUpperCase(), site: $('site').value,
+        central: $('central').value, nome: $('nome').value, cor: corAtual(), site: $('site').value,
         logo, logoEstiloBranca: $('branca').checked, semCartao: $('semCartao').checked,
       }, A);
       const blob = new Blob([G.zip(r.entradas)], { type: 'application/zip' });
@@ -255,7 +283,7 @@
   }));
 
   if (!A || !G) $('erro').textContent = 'Este arquivo está incompleto. Gere de novo com node ferramentas/empacotar.mjs.';
-  pintar('#2563EB'); previaLogo();
+  escalaPc(); versao = 0; $('amostraCel').src = AMOSTRA; $('amostraPc').src = AMOSTRA;
 })();
 </script>
 </body>

@@ -32,7 +32,14 @@ if (!pagina.includes('/*__ARQUIVOS__*/null') || !pagina.includes('/*__GERAR_JS__
 const pixQr = fs.readFileSync(path.join(raiz, 'apoie', 'pix-qr.svg'), 'utf8').replace(/<title>.*?<\/title>/, '').replace('<svg ', '<svg role="img" aria-label="QR Code do Pix" ');
 const pixCopia = fs.readFileSync(path.join(raiz, 'apoie', 'pix-copia-e-cola.txt'), 'utf8').trim();
 if (!/^000201.*6304[0-9A-F]{4}$/.test(pixCopia) || /['\\]/.test(pixCopia)) throw new Error('apoie/pix-copia-e-cola.txt inválido');
+// amostra: a casca de verdade sobre uma Central de exemplo, que o gerador mostra no celular e no computador
+for (const [de, para] of [[saida, 'casca-app.js'], [path.join(raiz, 'espelho', 'antiga', 'casca-pc.css'), 'casca-pc.css'], [path.join(raiz, 'espelho', 'antiga', 'casca-pc.js'), 'casca-pc.js']]) {
+  fs.copyFileSync(de, path.join(raiz, 'amostra', para));
+}
+const logoMarca = f => fs.readFileSync(path.join(raiz, 'marca', f), 'utf8').replace(/<\?xml[^>]*>/, '').replace('<svg ', '<svg role="img" aria-label="Parzbyte" ');
 const html = pagina
+  .replace('<!--__LOGO_MARCA__-->', () => logoMarca('parzbyte-logo.svg'))
+  .replace('<!--__LOGO_MARCA_NEG__-->', () => logoMarca('parzbyte-logo-negativo.svg'))
   .replace('/*__ARQUIVOS__*/null', () => dentroDoScript(JSON.stringify({ casca: pacote, modelos })))
   .replace('/*__GERAR_JS__*/', () => dentroDoScript(gerarJs))
   .replace('<!--__PIX_QR__-->', () => pixQr)

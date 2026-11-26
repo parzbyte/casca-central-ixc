@@ -48,6 +48,9 @@ a cor e o domínio do site. O gerador vê pelo link se é a Central antiga (`/ce
 (`/central-assinante/`) e baixa um .zip com a pasta pronta. Tudo acontece no navegador: nada é enviado para servidor
 nenhum.
 
+Ao lado do formulário fica uma amostra real, no celular e no computador: a casca de verdade sobre uma Central de exemplo
+(`amostra/`), que muda na hora com a cor, a logo e o nome escolhidos. Os dados da amostra são inventados.
+
 A pasta é um "espelho": um `index.php` que repassa a Central do IXC e devolve as páginas com a casca dentro, mais a
 adaptação para tela de computador. Suba a pasta na raiz do site (`public_html`, na maioria das hospedagens):
 

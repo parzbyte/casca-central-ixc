@@ -13,6 +13,23 @@ Não usa token da API do IXC e não mexe nos dados. A sessão é a do próprio c
 desbloqueio em confiança, assinatura de contrato, suspensão, troca de senha) continuam sendo os botões da própria
 Central. A casca lê o estado da página e repassa os cliques.
 
+## Apoie com um Pix
+
+<img src="apoie/pix-qr.svg" alt="QR Code do Pix para apoiar o projeto" width="200" align="right">
+
+A casca é de graça e vai continuar sendo. Se ela ajudou o seu provedor, **contribua com qualquer valor**: o Pix ajuda
+a manter a casca atualizada quando o IXC muda a Central.
+
+- **Chave Pix (CNPJ):** `70.078.072/0001-37`
+- **Ou aponte a câmera do banco** para o QR Code ao lado.
+- **Pix copia e cola:**
+
+  ```
+  00020126360014br.gov.bcb.pix0114700780720001375204000053039865802BR5925DAVID RIBEIRO DE OLIVEIRA6007GOIANIA62070503***6304B24F
+  ```
+
+Não é obrigatório: avisar de um defeito ou mandar uma melhoria ajuda tanto quanto.
+
 ## O que tem
 
 - Entrada com login, primeiro acesso e "Esqueci minha senha" (quando o provedor liga).
@@ -118,11 +135,6 @@ O endereço também pode ficar em `simulador/config.json` (veja `config.exemplo.
 ficam fora do git. Nunca publique nada delas.
 
 Precisa de Node 22 ou mais novo e do Chrome ou do Edge instalado.
-
-## Apoie o projeto
-
-A casca é de graça. Se ela ajudou o seu provedor e você quiser apoiar, o Pix é o CNPJ `70.078.072/0001-37`. Não é
-obrigatório: um pull request ou um aviso de defeito ajudam tanto quanto.
 
 ## Licença
 

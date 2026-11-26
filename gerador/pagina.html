@@ -65,6 +65,26 @@
   section.pronto h2 { margin: 0; font-size: 21px; }
   section.pronto ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
   code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .92em; background: var(--fundo); border: 1px solid var(--fio); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere; }
+  .apoie { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 26px 28px; border-radius: 24px;
+    background: radial-gradient(120% 140% at 0% 0%, #F0394A 0%, #E11D2E 45%, #A3101E 100%); color: #fff; box-shadow: 0 14px 40px rgba(163,16,30,.28); }
+  .apoie .selo-pix { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; width: fit-content; }
+  .apoie h2 { margin: 12px 0 6px; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.12; letter-spacing: -.02em; }
+  .apoie p { margin: 0; color: rgba(255,255,255,.86); max-width: 52ch; }
+  .apoie .chave { margin-top: 16px; display: grid; gap: 4px; }
+  .apoie .chave small { color: rgba(255,255,255,.7); font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+  .apoie .chave b { font: 800 clamp(22px, 3vw, 28px)/1.1 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: .01em; overflow-wrap: anywhere; }
+  .apoie .botoes { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .apoie button { font: inherit; font-weight: 700; font-size: 15px; min-height: 48px; padding: 0 20px; border-radius: 999px; cursor: pointer; border: 0; }
+  .apoie button.pri { background: #ffffff; color: #B5121F; }
+  .apoie button.sec { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); }
+  .apoie button:hover { filter: brightness(1.06); }
+  .apoie .qr { background: #fff; border-radius: 20px; padding: 12px; width: 196px; display: grid; gap: 6px; justify-items: center; }
+  .apoie .qr svg { width: 172px; height: 172px; display: block; }
+  .apoie .qr span { color: #17181c; font-size: 12.5px; font-weight: 600; }
+  @media (max-width: 640px) { .apoie { grid-template-columns: 1fr; padding: 22px 18px; } .apoie .qr { justify-self: center; order: 2; } }
+  .atalho-pix { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 8px 14px; border-radius: 999px; background: color-mix(in srgb, #E11D2E 12%, transparent); color: #B5121F; font-weight: 700; font-size: 14px; text-decoration: none; }
+  .atalho-pix::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #E11D2E; }
+  @media (prefers-color-scheme: dark) { .atalho-pix { color: #ff8a94; } }
   footer { color: var(--sec); font-size: 13.5px; }
   footer a { color: inherit; }
 </style>
@@ -74,6 +94,7 @@
   <header>
     <h1>Gerador da casca da Central do Assinante</h1>
     <p>Coloque o link da sua Central do IXC, a logo e a cor. O gerador descobre se é a Central antiga ou a nova e monta a pasta para subir no site do provedor. Tudo acontece neste navegador: nada é enviado para servidor nenhum.</p>
+    <a class="atalho-pix" href="#apoie">De graça e aberto. Quer apoiar? Veja o Pix</a>
   </header>
 
   <div class="grade">
@@ -139,7 +160,21 @@
     <p class="ajuda">A hospedagem precisa de PHP 8 com cURL e Apache com mod_rewrite (o comum em cPanel e Hostinger). Para gerar de novo com outra cor ou logo, é só trocar e baixar outra vez.</p>
   </section>
 
-  <footer>Casca da Central do IXC, código aberto para uso livre e sem revenda. Não tem ligação com a IXC Soft. Quer apoiar? Pix (CNPJ): <code>70.078.072/0001-37</code></footer>
+  <section class="apoie" id="apoie" aria-labelledby="apoieTitulo">
+    <div>
+      <span class="selo-pix">Apoie com Pix</span>
+      <h2 id="apoieTitulo">A casca é de graça. Gostou? Contribua com qualquer valor.</h2>
+      <p>O Pix ajuda a manter a casca atualizada quando o IXC muda a Central. Não é obrigatório: avisar de um defeito ou mandar uma melhoria também ajuda.</p>
+      <div class="chave"><small>Chave Pix (CNPJ)</small><b>70.078.072/0001-37</b></div>
+      <div class="botoes">
+        <button class="pri" type="button" data-copiar="pix">Copiar Pix copia e cola</button>
+        <button class="sec" type="button" data-copiar="cnpj">Copiar a chave</button>
+      </div>
+    </div>
+    <div class="qr"><!--__PIX_QR__--><span>Aponte a câmera do banco</span></div>
+  </section>
+
+  <footer>Casca da Central do IXC, código aberto para uso livre e sem revenda. Não tem ligação com a IXC Soft.</footer>
 </main>
 
 <script>window.__ARQUIVOS__ = /*__ARQUIVOS__*/null;</script>
@@ -210,6 +245,14 @@
       $('pronto').scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err) { $('erro').textContent = err.message; }
   });
+
+  const PIX = { pix: '/*__PIX_COPIA__*/', cnpj: '70078072000137' };
+  document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
+    const texto = PIX[b.dataset.copiar], antes = b.textContent;
+    try { await navigator.clipboard.writeText(texto); }
+    catch (e) { const t = document.createElement('textarea'); t.value = texto; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    b.textContent = 'Copiado. Obrigado!'; setTimeout(() => { b.textContent = antes; }, 2200);
+  }));
 
   if (!A || !G) $('erro').textContent = 'Este arquivo está incompleto. Gere de novo com node ferramentas/empacotar.mjs.';
   pintar('#2563EB'); previaLogo();

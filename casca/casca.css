@@ -1,0 +1,452 @@
+/* Casca da Central do Assinante. V2. Tudo sob html[data-casca="on"].
+   data-casca-modo="propria": a tela é nossa e o conteúdo original some (continua no DOM para as ações).
+   data-casca-modo="moldura": rota sem tela própria; a página original aparece com nosso cabeçalho, barra e tema.
+   %%PRIMARIA%% etc. são trocados pelo casca.js com as cores do provedor (azul #2563EB como padrão). */
+
+html[data-casca="on"] {
+  --casca-primaria: %%PRIMARIA%%;
+  --casca-primaria-escura: %%PRIMARIA_ESCURA%%;
+  --casca-primaria-clara: %%PRIMARIA_CLARA%%;
+  --casca-texto: #111111;
+  --casca-texto-2: #5F5F5C;
+  --casca-texto-3: #6B6B68;
+  --casca-fundo: #F4F4F2;
+  --casca-cartao: #FFFFFF;
+  --casca-borda: #E8E8E6;
+  --casca-ok: #0A6D33;
+  --casca-ok-claro: #E6F6EC;
+  --casca-aviso: #8A5A00;
+  --casca-aviso-claro: #FFF3D6;
+  --casca-fonte: Inter, "Segoe UI", Roboto, system-ui, sans-serif;
+  --casca-sombra: 0 1px 2px rgba(17,17,17,0.04), 0 8px 24px rgba(17,17,17,0.06);
+}
+html[data-casca="on"] body { background: var(--casca-fundo) !important; color: var(--casca-texto) !important; font-family: var(--casca-fonte) !important; -webkit-tap-highlight-color: transparent; }
+
+/* a moldura da Central some sempre que a casca está montada */
+html[data-casca-modo] .topbar,
+html[data-casca-modo] .sidebar,
+html[data-casca-modo] .main-panel > nav.navbar,
+html[data-casca-modo] .main-panel .breadcrumb { display: none !important; }
+html[data-casca-modo] .main-panel { width: 100% !important; float: none !important; margin: 0 !important; padding: 0 0 96px 0 !important; position: relative !important; top: 0 !important; height: auto !important; min-height: 100vh; overflow: visible !important; }
+html[data-casca-modo] .main-panel .content { padding: 0 !important; margin: 0 !important; min-height: 0 !important; }
+html[data-casca-modo] .wrapper { padding-top: 0 !important; }
+html[data-casca-modo="propria"] .main-panel .content > *:not(#casca-raiz) { display: none !important; }
+
+/* moldura: a página original com o nosso tema */
+html[data-casca-modo="moldura"] .main-panel .content > .container-fluid { padding: 14px 16px 8px !important; }
+html[data-casca-modo="moldura"] #casca-raiz .casca-cab-pagina { margin-bottom: 0; }
+html[data-casca="on"] .card { background: var(--casca-cartao) !important; border: 1px solid var(--casca-borda) !important; border-radius: 18px !important; box-shadow: var(--casca-sombra) !important; overflow: hidden; margin: 0 0 12px !important; }
+html[data-casca="on"] .card .card-header { background: transparent !important; box-shadow: none !important; border-bottom: 1px solid var(--casca-borda) !important; margin: 0 !important; border-radius: 0 !important; padding: 14px 16px !important; }
+html[data-casca="on"] .card .card-header .title, html[data-casca="on"] .card .card-header h4, html[data-casca="on"] .card .card-header h3 { font-family: var(--casca-fonte) !important; font-weight: 700 !important; color: var(--casca-texto) !important; font-size: 16px !important; }
+html[data-casca="on"] .card .card-header .material-icons, html[data-casca="on"] .card .card-header .icone { color: var(--casca-primaria) !important; background: transparent !important; box-shadow: none !important; }
+html[data-casca="on"] .card .card-header .category, html[data-casca="on"] .card .card-header .desc { color: var(--casca-texto-2) !important; }
+html[data-casca="on"] .card .card-footer { border-top: 1px solid var(--casca-borda) !important; }
+html[data-casca="on"] .botao_acao_faturas, html[data-casca="on"] .btn { border-radius: 999px !important; font-family: var(--casca-fonte) !important; font-weight: 600 !important; text-transform: none !important; letter-spacing: 0 !important; box-shadow: none !important; }
+html[data-casca="on"] .botao_acao_faturas, html[data-casca="on"] .btn-primary, html[data-casca="on"] .btn-info, html[data-casca="on"] .btn-success, html[data-casca="on"] .btn-default { background: var(--casca-primaria) !important; border-color: var(--casca-primaria) !important; color: #fff !important; min-height: 44px; }
+html[data-casca="on"] .botao_acao_faturas .material-icons, html[data-casca="on"] .botao_acao_faturas i { color: #fff !important; }
+html[data-casca="on"] input.form-control, html[data-casca="on"] select.form-control, html[data-casca="on"] textarea.form-control, html[data-casca="on"] .main-panel input:not([type=checkbox]):not([type=radio]), html[data-casca="on"] .main-panel select, html[data-casca="on"] .main-panel textarea { border: 1px solid var(--casca-borda) !important; border-radius: 12px !important; background: #fff !important; padding: 10px 12px !important; height: auto !important; font-family: var(--casca-fonte) !important; font-size: 15px !important; box-shadow: none !important; background-image: none !important; }
+html[data-casca="on"] .main-panel label { font-family: var(--casca-fonte) !important; color: var(--casca-texto-2) !important; font-weight: 600 !important; }
+html[data-casca="on"] a { color: var(--casca-primaria-escura); }
+html[data-casca="on"] .status_green, html[data-casca="on"] .status_red, html[data-casca="on"] .status_yellow { display: inline-block; border-radius: 999px !important; padding: 4px 10px !important; font-size: 12px !important; font-weight: 700 !important; }
+html[data-casca="on"] #preloader, html[data-casca="on"] .index-minimo { background: var(--casca-fundo) !important; }
+
+/* modais da Central */
+html[data-casca="on"] .modal-content { border-radius: 22px !important; border: 0 !important; font-family: var(--casca-fonte) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.25) !important; }
+html[data-casca="on"] .modal-header { border-bottom: 1px solid var(--casca-borda) !important; background: #fff !important; }
+html[data-casca="on"] .modal-header .close { opacity: 0.6; font-size: 28px; }
+html[data-casca="on"] .modal-backdrop.in { opacity: 0.45 !important; }
+html[data-casca="on"] #modalImpressao .modal-dialog { width: 100% !important; max-width: 100% !important; height: 100% !important; margin: 0 !important; }
+html[data-casca="on"] #modalImpressao .modal-content { height: 100% !important; border-radius: 0 !important; display: flex; flex-direction: column; }
+html[data-casca="on"] #modalImpressao .modal-body { flex: 1 1 auto; overflow: auto; }
+html[data-casca="on"] #modalImpressao .modal-title { font-weight: 700 !important; }
+html[data-casca-pix="on"] #modalPix, html[data-casca-pix="on"] .modal-backdrop { display: none !important; }
+html[data-casca="on"] .iziToast { border-radius: 16px !important; font-family: var(--casca-fonte) !important; box-shadow: var(--casca-sombra) !important; }
+
+/* layout próprio */
+#casca-raiz, #casca-gaveta, #casca-avisos, #casca-folha, #casca-pix { font-family: var(--casca-fonte); color: var(--casca-texto); -webkit-font-smoothing: antialiased; }
+#casca-raiz *, #casca-gaveta *, #casca-avisos *, #casca-folha *, #casca-pix * { box-sizing: border-box; }
+#casca-raiz button, #casca-gaveta button, #casca-folha button, #casca-pix button, #casca-avisos button { font: inherit; cursor: pointer; }
+#casca-raiz a, #casca-gaveta a { text-decoration: none; color: inherit; cursor: pointer; }
+#casca-raiz svg, #casca-gaveta svg, #casca-folha svg, #casca-pix svg, #casca-avisos svg { width: 22px; height: 22px; flex: 0 0 auto; }
+
+.casca-topo { background: var(--casca-primaria); color: #fff; padding: 12px 20px 16px; display: flex; flex-direction: column; gap: 10px; border-radius: 0 0 28px 28px; }
+.casca-topo-linha { display: flex; align-items: center; justify-content: space-between; }
+.casca-logo { display: inline-flex; align-items: center; height: 40px; padding: 6px 12px; background: #fff; border-radius: 12px; }
+.casca-logo img { height: 28px; max-width: 150px; object-fit: contain; display: block; }
+.casca-logo-nome { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.casca-icone-btn { width: 44px; height: 44px; border-radius: 22px; background: rgba(255,255,255,0.16); display: inline-flex; align-items: center; justify-content: center; color: #fff; border: 0; padding: 0; }
+.casca-topo-botoes { display: inline-flex; gap: 8px; }
+.casca-ola { display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden; }
+.casca-ola span { font-size: 17px; opacity: 0.85; }
+.casca-ola strong { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; overflow: hidden; text-overflow: ellipsis; }
+.casca-chips { display: flex; gap: 6px; flex-wrap: nowrap; min-width: 0; }
+.casca-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.16); border-radius: 999px; padding: 5px 10px; font-size: 12.5px; font-weight: 600; flex: none; }
+.casca-chip.casca-chip-plano { flex: 0 1 auto; min-width: 0; display: block; }
+.casca-ponto { width: 8px; height: 8px; border-radius: 4px; background: #FFD166; }
+.casca-ponto.ok { background: #7CFFB2; }
+.casca-ponto.neutro { background: #DDD; }
+
+.casca-cab-pagina { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.96); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--casca-borda); padding: 10px 12px; display: flex; align-items: center; gap: 6px; }
+.casca-cab-pagina h1 { flex: 1 1 auto; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin: 0; color: var(--casca-texto); font-family: var(--casca-fonte); }
+.casca-cab-pagina .casca-icone-btn { background: transparent; color: var(--casca-texto); }
+
+.casca-corpo { padding: 14px 16px 8px; display: flex; flex-direction: column; gap: 12px; }
+.casca-card { background: var(--casca-cartao); border: 1px solid var(--casca-borda); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--casca-sombra); }
+.casca-rotulo { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--casca-texto-3); }
+.casca-valor { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; display: block; margin-top: 2px; }
+.casca-valor.centro, .casca-sub.centro { text-align: center; }
+.casca-valor-sm { font-size: 17px; font-weight: 700; }
+.casca-titulo-card { font-size: 16px; font-weight: 700; }
+.casca-sub { font-size: 13px; color: var(--casca-texto-2); display: block; line-height: 1.4; }
+.casca-fatura-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.casca-fatura-cab > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.casca-dir { align-items: flex-end; flex: 0 0 auto; }
+.casca-etiqueta { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: var(--casca-primaria-clara); color: var(--casca-primaria-escura); white-space: nowrap; flex: 0 0 auto; }
+.casca-etiqueta.paga, .casca-etiqueta.ok { background: var(--casca-ok-claro); color: var(--casca-ok); }
+.casca-etiqueta.cancelada, .casca-etiqueta.neutro { background: #EEEEEC; color: var(--casca-texto-2); }
+.casca-etiqueta.vencida, .casca-etiqueta.alerta { background: var(--casca-primaria); color: #fff; }
+.casca-etiqueta.aviso { background: var(--casca-aviso-claro); color: var(--casca-aviso); }
+.casca-botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.casca-btn { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--casca-borda); background: #fff; color: var(--casca-texto) !important; font-size: 15px; font-weight: 600; text-decoration: none !important; white-space: nowrap; }
+.casca-btn svg { width: 18px !important; height: 18px !important; }
+.casca-btn.pri { background: var(--casca-primaria); border-color: var(--casca-primaria); color: #fff !important; }
+.casca-btn.sec { flex: 1 1 auto; }
+.casca-btn.quadrado { flex: 0 0 48px; padding: 0; }
+.casca-btn.largo { width: 100%; flex: 1 1 100%; }
+.casca-btn.perigo { color: var(--casca-primaria-escura) !important; }
+.casca-btn:active, .casca-atalho:active, .casca-linha:active { transform: scale(0.98); }
+.casca-links { display: flex; gap: 16px; flex-wrap: wrap; }
+.casca-link { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 4px; min-height: 44px; color: var(--casca-primaria-escura); font-size: 14px; font-weight: 600; }
+.casca-link svg { width: 16px !important; height: 16px !important; }
+.casca-mais { display: inline-flex; align-items: center; gap: 4px; font-size: 13.5px; font-weight: 600; color: var(--casca-primaria-escura) !important; }
+.casca-mais svg { width: 16px !important; height: 16px !important; }
+.casca-vazio { align-items: center; text-align: center; padding: 26px 16px; }
+.casca-vazio strong { font-size: 17px; }
+.casca-vazio .casca-ico { background: var(--casca-ok-claro); color: var(--casca-ok); }
+.casca-linha { flex-direction: row; align-items: center; gap: 12px; text-align: left; width: 100%; position: relative; }
+.casca-linha-txt { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 0; }
+.casca-linha-txt strong { font-size: 15px; }
+.casca-linha-txt span { font-size: 13px; color: var(--casca-texto-2); }
+.casca-destaque { background: var(--casca-primaria-clara); border-color: transparent; }
+.casca-destaque .casca-ico { background: var(--casca-primaria); color: #fff; }
+.casca-ico { width: 42px; height: 42px; border-radius: 13px; background: var(--casca-primaria-clara); color: var(--casca-primaria-escura); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.casca-grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.casca-atalho { position: relative; background: var(--casca-cartao); border: 1px solid var(--casca-borda); border-radius: 18px; padding: 14px 6px; display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 96px; font-size: 12.5px; font-weight: 600; text-align: center; box-shadow: var(--casca-sombra); }
+.casca-atalho .casca-ico { width: 40px; height: 40px; }
+.casca-atalho .casca-atalho-sub { margin-top: -6px; font-size: 11px; font-weight: 500; line-height: 1.25; color: var(--casca-texto-2); }
+.casca-badge { position: absolute; top: 8px; right: 10px; min-width: 20px; height: 20px; border-radius: 10px; background: var(--casca-primaria); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; }
+.casca-badge.rel { position: static; }
+.casca-plano strong { font-size: 15px; }
+.casca-grupo { display: flex; flex-direction: column; gap: 10px; }
+.casca-fatura-item strong { font-size: 15px; }
+.casca-nota { font-size: 12.5px; color: var(--casca-texto-3); text-align: center; padding: 4px 10px 0; line-height: 1.4; margin: 0; }
+.casca-dl { margin: 0; display: flex; flex-direction: column; }
+.casca-dl div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #F0F0EE; }
+.casca-dl div:first-child { border-top: 0; }
+.casca-dl dt { font-size: 13px; color: var(--casca-texto-2); font-weight: 500; }
+.casca-dl dd { margin: 0; font-size: 14px; font-weight: 600; text-align: right; word-break: break-word; }
+.casca-perfil { align-items: center; text-align: center; }
+.casca-perfil strong { font-size: 18px; }
+.casca-avatar { width: 56px; height: 56px; border-radius: 28px; background: var(--casca-primaria); color: #fff; font-size: 22px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.casca-abas { display: flex; gap: 6px; background: #E9E9E7; border-radius: 999px; padding: 4px; overflow-x: auto; }
+.casca-abas button { flex: 1 1 0; border: 0; background: transparent; border-radius: 999px; min-height: 38px; padding: 0 12px; font-size: 13.5px; font-weight: 600; color: var(--casca-texto-2); white-space: nowrap; }
+.casca-abas button.ativo { background: #fff; color: var(--casca-texto); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+#casca-raiz svg.casca-grafico { width: 100% !important; height: 170px !important; display: block; }
+#casca-raiz .casca-grafico-rotulos { display: grid; margin-top: 6px; font-size: 11px; color: var(--casca-texto-3); text-align: center; font-variant-numeric: tabular-nums; }
+#casca-raiz .casca-grafico-rotulos span { overflow: hidden; white-space: nowrap; }
+.casca-grafico rect.d { fill: var(--casca-primaria); }
+.casca-grafico rect.u { fill: #C9C9C6; }
+.casca-grafico text { font-size: 9px; fill: var(--casca-texto-3); font-family: var(--casca-fonte); }
+.casca-legenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--casca-texto-2); font-weight: 600; }
+.casca-legenda i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.casca-legenda i.d { background: var(--casca-primaria); } .casca-legenda i.u { background: #C9C9C6; }
+.casca-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--casca-texto-2); }
+.casca-form input, .casca-form select, .casca-form textarea { font: inherit; font-size: 15px; font-weight: 500; color: var(--casca-texto); border: 1px solid var(--casca-borda); border-radius: 14px; padding: 12px 14px; background: #fff; width: 100%; }
+.casca-form input:focus, .casca-form select:focus, .casca-form textarea:focus { outline: 2px solid var(--casca-primaria); outline-offset: 0; border-color: transparent; }
+
+/* barra inferior */
+.casca-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040; display: grid; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); border-top: 1px solid var(--casca-borda); padding: 6px 8px calc(10px + env(safe-area-inset-bottom)); }
+.casca-nav a { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; color: var(--casca-texto-3) !important; font-size: 11px; font-weight: 600; }
+.casca-nav a.ativo { color: var(--casca-primaria) !important; font-weight: 700; }
+
+/* gaveta (menu) */
+#casca-gaveta { position: fixed; inset: 0; z-index: 2000; pointer-events: none; }
+#casca-gaveta.aberta { pointer-events: auto; }
+.casca-gaveta-fundo { position: absolute; inset: 0; background: rgba(17,17,17,0.45); opacity: 0; transition: opacity .2s; }
+#casca-gaveta.aberta .casca-gaveta-fundo { opacity: 1; }
+.casca-gaveta-painel { position: absolute; top: 0; right: 0; bottom: 0; width: min(86vw, 340px); background: #fff; transform: translateX(100%); transition: transform .25s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; padding: 14px 12px calc(16px + env(safe-area-inset-bottom)); overflow-y: auto; border-radius: 24px 0 0 24px; }
+#casca-gaveta.aberta .casca-gaveta-painel { transform: none; }
+.casca-gaveta-topo { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; }
+.casca-gaveta-topo .casca-logo { padding: 0; height: 36px; }
+.casca-gaveta-topo .casca-icone-btn { background: #F1F1EF; color: var(--casca-texto); }
+.casca-gaveta-perfil { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; background: var(--casca-fundo); margin: 6px 0 10px; }
+.casca-gaveta-perfil .casca-avatar { width: 44px; height: 44px; font-size: 18px; }
+.casca-gaveta-perfil strong { display: block; font-size: 15px; }
+.casca-gaveta-perfil small { font-size: 12.5px; color: var(--casca-texto-2); }
+.casca-gaveta-painel nav { display: flex; flex-direction: column; gap: 2px; }
+.casca-gaveta-painel nav a, .casca-gaveta-sec a, .casca-gaveta-sair { display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px; font-size: 15px; font-weight: 600; color: var(--casca-texto) !important; }
+.casca-gaveta-painel nav a svg, .casca-gaveta-sec a svg, .casca-gaveta-sair svg { color: var(--casca-texto-3); }
+.casca-gaveta-painel nav a.ativo { background: var(--casca-primaria-clara); color: var(--casca-primaria-escura) !important; }
+.casca-gaveta-painel nav a.ativo svg { color: var(--casca-primaria); }
+.casca-gaveta-sec { border-top: 1px solid var(--casca-borda); margin-top: 10px; padding-top: 12px; display: flex; flex-direction: column; }
+.casca-gaveta-sec .casca-rotulo { padding: 0 12px 4px; }
+.casca-gaveta-sair { margin-top: auto; color: var(--casca-primaria-escura) !important; border-top: 1px solid var(--casca-borda); border-radius: 0; padding-top: 16px; }
+.casca-gaveta-sair svg { color: var(--casca-primaria) !important; }
+
+/* avisos */
+#casca-avisos { position: fixed; left: 12px; right: 12px; top: calc(10px + env(safe-area-inset-top)); z-index: 3000; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.casca-aviso { pointer-events: auto; display: flex; align-items: center; gap: 12px; background: #111; color: #fff; border-radius: 18px; padding: 12px 12px 12px 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); animation: cascaEntra .25s cubic-bezier(.2,.8,.2,1); transition: opacity .3s, transform .3s; }
+.casca-aviso.saindo { opacity: 0; transform: translateY(-8px); }
+.casca-aviso .casca-ico { width: 32px; height: 32px; border-radius: 16px; background: rgba(255,255,255,0.14); color: #fff; }
+.casca-aviso.ok .casca-ico { background: #1F9D55; } .casca-aviso.erro .casca-ico { background: var(--casca-primaria); }
+.casca-aviso .casca-ico svg { width: 18px !important; height: 18px !important; }
+.casca-aviso-txt { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; font-size: 13.5px; line-height: 1.35; }
+.casca-aviso-txt strong { font-size: 14px; }
+.casca-aviso button { border: 0; background: transparent; color: rgba(255,255,255,0.7); width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; }
+.casca-aviso button svg { width: 16px !important; height: 16px !important; }
+@keyframes cascaEntra { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+/* folhas (confirmação e PIX) */
+#casca-folha, #casca-pix { position: fixed; inset: 0; z-index: 2500; pointer-events: none; }
+#casca-folha.aberta, #casca-pix.aberta { pointer-events: auto; }
+.casca-folha-fundo { position: absolute; inset: 0; background: rgba(17,17,17,0.45); opacity: 0; transition: opacity .2s; }
+.aberta > .casca-folha-fundo { opacity: 1; }
+.casca-folha-painel { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 26px 26px 0 0; padding: 22px 20px calc(20px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; transform: translateY(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1); max-height: 92vh; overflow-y: auto; }
+.aberta > .casca-folha-painel { transform: none; }
+.casca-folha-painel::before { content: ""; width: 40px; height: 5px; border-radius: 3px; background: #DDD; align-self: center; margin: -10px 0 4px; }
+.casca-folha-titulo { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+.casca-folha-painel p { margin: 0; font-size: 14.5px; color: var(--casca-texto-2); line-height: 1.45; }
+.casca-pix-cab { display: flex; align-items: center; justify-content: space-between; }
+.casca-pix-cab strong { font-size: 18px; }
+.casca-pix-cab .casca-icone-btn { background: #F1F1EF; color: var(--casca-texto); }
+.casca-qr { align-self: center; padding: 12px; border: 1px solid var(--casca-borda); border-radius: 18px; background: #fff; }
+.casca-qr img { width: 210px; height: 210px; display: block; image-rendering: pixelated; }
+.casca-codigo { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; color: var(--casca-texto-2); background: var(--casca-fundo); border: 1px dashed #D6D6D3; border-radius: 12px; padding: 10px 12px; word-break: break-all; max-height: 72px; overflow: hidden; }
+.casca-carregando { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px 0; color: var(--casca-texto-2); font-size: 14px; }
+.casca-carregando span { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--casca-primaria-clara); border-top-color: var(--casca-primaria); animation: cascaGira .8s linear infinite; }
+@keyframes cascaGira { to { transform: rotate(360deg); } }
+.casca-vazio-pix { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 24px 0; color: var(--casca-primaria); }
+.casca-vazio-pix strong { color: var(--casca-texto); font-size: 16px; }
+.casca-vazio-pix svg { width: 36px !important; height: 36px !important; }
+
+@media (min-width: 620px) {
+  .casca-corpo { max-width: 560px; margin: 0 auto; width: 100%; }
+  .casca-folha-painel { left: 50%; right: auto; width: 480px; margin-left: -240px; }
+}
+
+/* carregamento: o #loader da Central vira o nosso */
+html[data-casca="on"] #preloader { background: transparent !important; }
+html[data-casca="on"] #preloader:has(> #loader:not([style*="none"])) { z-index: 2400 !important; }
+html[data-casca="on"] #loader { position: fixed !important; inset: 0 !important; width: auto !important; height: auto !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important; animation: none !important; transform: none !important; background: rgba(244,244,242,0.78) !important; backdrop-filter: blur(3px); z-index: 2400 !important; }
+html[data-casca="on"] #loader::before { content: "" !important; position: absolute !important; left: 50% !important; top: 50% !important; width: 48px !important; height: 48px !important; margin: -24px 0 0 -24px !important; border-radius: 50% !important; border: 4px solid var(--casca-primaria-clara) !important; border-top-color: var(--casca-primaria) !important; background: transparent !important; animation: cascaGira .8s linear infinite !important; right: auto !important; bottom: auto !important; }
+html[data-casca="on"] #loader::after { content: "Carregando…" !important; position: absolute !important; left: 0 !important; right: 0 !important; top: calc(50% + 40px) !important; text-align: center !important; font: 600 14px var(--casca-fonte) !important; color: var(--casca-texto-2) !important; border: 0 !important; background: none !important; animation: none !important; width: auto !important; height: auto !important; margin: 0 !important; }
+html[data-casca="on"] .loader-modal { font-family: var(--casca-fonte) !important; color: var(--casca-texto-2) !important; font-weight: 600 !important; text-align: center; }
+html[data-casca="on"] .loader-modal span { background: var(--casca-primaria) !important; }
+html[data-casca="on"] .login_loader { border-color: var(--casca-primaria-clara) !important; border-top-color: var(--casca-primaria) !important; }
+.casca-girando { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; animation: cascaGira .8s linear infinite; display: inline-block; }
+
+/* tela de entrada */
+html[data-casca-modo="login"] .app-login, html[data-casca-modo="login"] .login-mobile, html[data-casca-modo="login"] .login-principal { visibility: hidden !important; }
+#casca-login { position: fixed; inset: 0; z-index: 1500; overflow-y: auto; background: var(--casca-fundo); font-family: var(--casca-fonte); color: var(--casca-texto); -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
+#casca-login * { box-sizing: border-box; }
+#casca-login button { font: inherit; cursor: pointer; }
+#casca-login svg { width: 20px; height: 20px; }
+.casca-login-topo { background: var(--casca-primaria); color: #fff; padding: calc(48px + env(safe-area-inset-top)) 24px 72px; display: flex; flex-direction: column; align-items: center; gap: 14px; border-radius: 0 0 32px 32px; }
+.casca-logo.grande { height: 64px; padding: 10px 18px; border-radius: 18px; }
+.casca-logo.grande img { height: 44px; max-width: 200px; }
+.casca-login-ola { font-size: 15px; font-weight: 600; opacity: 0.9; }
+.casca-login-cartao { margin: -48px 16px 16px; background: #fff; border-radius: 24px; box-shadow: 0 12px 40px rgba(17,17,17,0.10); padding: 24px 20px; }
+.casca-login-form { display: flex; flex-direction: column; gap: 14px; }
+.casca-login-titulo { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.casca-login-form .casca-sub { margin: -8px 0 4px; }
+.casca-login-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--casca-texto-2); }
+.casca-login-form input:not([type=checkbox]) { font: inherit; font-size: 16px; font-weight: 500; color: var(--casca-texto); border: 1px solid var(--casca-borda); border-radius: 14px; padding: 14px; background: #fff; width: 100%; }
+.casca-login-form input:focus { outline: 2px solid var(--casca-primaria); outline-offset: 0; border-color: transparent; }
+.casca-senha { position: relative; display: block; }
+.casca-senha input { padding-right: 50px !important; }
+.casca-senha button { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 0; background: transparent; color: var(--casca-texto-3); display: inline-flex; align-items: center; justify-content: center; }
+.casca-check { flex-direction: row !important; align-items: center; gap: 10px !important; font-size: 14px !important; color: var(--casca-texto) !important; font-weight: 500 !important; }
+.casca-check input { width: 20px !important; height: 20px !important; accent-color: var(--casca-primaria) !important; }
+.casca-link.centro { align-self: center; }
+/* a Central deixa transparente todo botão desativado (button[disabled] { background: transparent !important }) */
+#casca-login .casca-btn.pri[disabled], #casca-raiz .casca-btn.pri[disabled] { background: var(--casca-primaria) !important; color: #fff !important; opacity: 0.75; }
+#casca-login .casca-btn.sec[disabled], #casca-raiz .casca-btn.sec[disabled] { background: #fff !important; opacity: 0.6; }
+#casca-login .casca-btn[disabled] { opacity: 0.7; }
+#casca-login .casca-nota { margin-top: auto; padding-bottom: 16px; }
+
+/* esqueleto enquanto a Central busca os dados */
+.casca-esqueleto { min-height: 150px; background: linear-gradient(90deg, #fff 0%, #F3F3F1 40%, #fff 80%) !important; background-size: 200% 100% !important; animation: cascaBrilho 1.2s ease-in-out infinite; }
+.casca-esqueleto.curto { min-height: 92px; }
+@keyframes cascaBrilho { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+.casca-form label small { font-weight: 500; color: var(--casca-texto-3); }
+
+/* caixa de seleção própria (a da Central é azul e o accent-color não vence o CSS dela) */
+#casca-login .casca-check input, #casca-raiz .casca-form input[type=checkbox] { -webkit-appearance: none !important; appearance: none !important; width: 22px !important; height: 22px !important; border: 2px solid #C9C9C6 !important; border-radius: 7px !important; background: #fff !important; display: inline-grid !important; place-content: center; margin: 0 !important; flex: 0 0 auto; position: static !important; opacity: 1 !important; }
+#casca-login .casca-check input:checked, #casca-raiz .casca-form input[type=checkbox]:checked { background: var(--casca-primaria) !important; border-color: var(--casca-primaria) !important; }
+#casca-login .casca-check input:checked::after, #casca-raiz .casca-form input[type=checkbox]:checked::after { content: ""; width: 10px; height: 6px; border: 2.5px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+#casca-login .casca-check span::before, #casca-login .casca-check span::after { display: none !important; content: none !important; }
+
+/* conversa do chamado */
+.casca-conversa { display: flex; flex-direction: column; gap: 10px; }
+.casca-msg-desc { background: #fff; border: 1px solid var(--casca-borda); border-radius: 18px; padding: 14px 16px; }
+.casca-msg-desc p, .casca-balao p { margin: 4px 0 6px; font-size: 14.5px; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+.casca-msg-desc small, .casca-balao small { font-size: 11.5px; color: var(--casca-texto-3); }
+.casca-balao { max-width: 86%; padding: 10px 14px; border-radius: 18px; }
+.casca-balao.eles { align-self: flex-start; background: #fff; border: 1px solid var(--casca-borda); border-bottom-left-radius: 6px; }
+.casca-balao.eles strong { font-size: 12.5px; color: var(--casca-primaria-escura); }
+.casca-balao.eu { align-self: flex-end; background: var(--casca-primaria); color: #fff; border-bottom-right-radius: 6px; }
+.casca-balao.eu small { color: rgba(255,255,255,0.75); }
+
+/* pente fino nas telas que seguem com o conteúdo da Central (moldura) */
+html[data-casca-modo="moldura"] .main-panel .content .page, html[data-casca-modo="moldura"] .main-panel .content .row { margin-top: 0 !important; padding-top: 0 !important; }
+html[data-casca-modo="moldura"] .main-panel .content .container-fluid > * { margin-top: 0 !important; }
+html[data-casca-modo="moldura"] .material-icons, html[data-casca-modo="moldura"] .fa, html[data-casca-modo="moldura"] .fas, html[data-casca-modo="moldura"] .far { color: var(--casca-primaria) !important; }
+html[data-casca-modo="moldura"] .btn .material-icons, html[data-casca-modo="moldura"] .botao_acao_faturas .material-icons { color: #fff !important; }
+html[data-casca-modo="moldura"] .text-info, html[data-casca-modo="moldura"] .text-primary, html[data-casca-modo="moldura"] [class*="text-cyan"], html[data-casca-modo="moldura"] .sem_mensagens_novas, html[data-casca-modo="moldura"] .faturas_em_dia { color: var(--casca-texto-2) !important; }
+html[data-casca-modo="moldura"] h1, html[data-casca-modo="moldura"] h2, html[data-casca-modo="moldura"] h3, html[data-casca-modo="moldura"] h4, html[data-casca-modo="moldura"] h5, html[data-casca-modo="moldura"] p, html[data-casca-modo="moldura"] span, html[data-casca-modo="moldura"] td, html[data-casca-modo="moldura"] th, html[data-casca-modo="moldura"] li { font-family: var(--casca-fonte) !important; }
+html[data-casca-modo="moldura"] .card .card-header .category { color: var(--casca-texto-3) !important; font-size: 12px !important; text-transform: uppercase; letter-spacing: .06em; font-weight: 700 !important; }
+html[data-casca-modo="moldura"] .nav-tabs, html[data-casca-modo="moldura"] [data-background-color] { background: #E9E9E7 !important; border: 0 !important; border-radius: 999px !important; padding: 4px !important; box-shadow: none !important; display: flex; gap: 4px; }
+html[data-casca-modo="moldura"] .card .card-header[data-background-color] { background: transparent !important; border-radius: 0 !important; padding: 14px 16px !important; display: block; }
+html[data-casca-modo="moldura"] .nav-tabs > li > a, html[data-casca-modo="moldura"] .nav-tabs .nav-link { color: var(--casca-texto-2) !important; border: 0 !important; border-radius: 999px !important; background: transparent !important; font-weight: 600 !important; text-transform: none !important; margin: 0 !important; }
+html[data-casca-modo="moldura"] .nav-tabs > li.active > a, html[data-casca-modo="moldura"] .nav-tabs .nav-link.active { background: #fff !important; color: var(--casca-texto) !important; box-shadow: 0 1px 3px rgba(0,0,0,.08) !important; }
+html[data-casca-modo="moldura"] [style*="background-color: rgb(0, 128"], html[data-casca-modo="moldura"] [style*="background: rgb(0, 128"], html[data-casca-modo="moldura"] .bg-primary, html[data-casca-modo="moldura"] .bg-info { background: var(--casca-primaria) !important; color: #fff !important; }
+html[data-casca-modo="moldura"] table { font-size: 14px !important; }
+html[data-casca-modo="moldura"] table th { color: var(--casca-texto-3) !important; font-weight: 700 !important; font-size: 12px !important; text-transform: uppercase; border: 0 !important; }
+html[data-casca-modo="moldura"] table td { border-top: 1px solid #F0F0EE !important; }
+html[data-casca-modo="moldura"] .main-panel .content > :not(#casca-raiz) a:not(.btn) { color: var(--casca-primaria-escura) !important; }
+
+/* dentro do app: a barra de baixo é a nativa */
+html[data-casca-app][data-casca-modo] .main-panel { padding-bottom: 24px !important; }
+html[data-casca-app] #casca-avisos { top: calc(8px + env(safe-area-inset-top)); }
+
+/* rolagem: a Central prende a página numa tela (.wrapper height:100vh; .main-panel max-height:100%,
+   .maximizado height calc(100vh-60px) + top 60px). Com a casca, quem rola é o documento inteiro. ---------- */
+html[data-casca-modo]:not([data-casca-modo="login"]), html[data-casca-modo]:not([data-casca-modo="login"]) body { height: auto !important; min-height: 100% !important; overflow-y: auto !important; }
+html[data-casca-modo]:not([data-casca-modo="login"]) #app,
+html[data-casca-modo]:not([data-casca-modo="login"]) .wrapper { height: auto !important; min-height: 100vh !important; max-height: none !important; overflow: visible !important; }
+html[data-casca-modo]:not([data-casca-modo="login"]) .main-panel,
+html[data-casca-modo]:not([data-casca-modo="login"]) .main-panel.maximizado,
+html[data-casca-modo]:not([data-casca-modo="login"]) .main-panel.minimizado { height: auto !important; max-height: none !important; top: 0 !important; overflow: visible !important; }
+
+/* tela proporcional (ajustarTela no casca.js): desenho de 390px escalado para a tela real */
+html[data-casca="on"] #casca-raiz,
+html[data-casca="on"] #casca-login > *,
+html[data-casca="on"] .casca-gaveta-painel,
+html[data-casca="on"] #casca-avisos,
+html[data-casca="on"] .casca-folha-painel { zoom: var(--casca-zoom, 1); }
+
+/* modelo "grande" (letra grande no aparelho ou tela estreita): nada espremido */
+html[data-casca-tam="grande"] .casca-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html[data-casca-tam="grande"] .casca-fatura .casca-botoes,
+html[data-casca-tam="grande"] .casca-fatura-item .casca-botoes { flex-direction: column; }
+html[data-casca-tam="grande"] .casca-fatura .casca-btn,
+html[data-casca-tam="grande"] .casca-fatura-item .casca-btn:not(.quadrado) { width: 100%; flex: 1 1 auto; }
+html[data-casca-tam="grande"] .casca-fatura-item .casca-btn.quadrado { width: 100%; flex: 1 1 auto; }
+html[data-casca-tam="grande"] .casca-chip { font-size: 12px; }
+html[data-casca-tam="grande"] .casca-dl div { flex-direction: column; gap: 2px; }
+html[data-casca-tam="grande"] .casca-dl dd { text-align: left; }
+html[data-casca-tam="grande"] .casca-linha .casca-etiqueta { display: none; }
+/* modelo "compacto" (tela um pouco estreita): textos e espaços menores */
+html[data-casca-tam="compacto"] .casca-atalho { font-size: 11.5px; min-height: 88px; padding: 12px 4px; }
+html[data-casca-tam="compacto"] .casca-btn { font-size: 14px; padding: 0 12px; }
+html[data-casca-tam="compacto"] .casca-corpo { padding: 12px 12px 8px; }
+/* textos longos nunca estouram a largura */
+#casca-raiz .casca-btn, #casca-login .casca-btn { white-space: normal; text-align: center; line-height: 1.2; }
+#casca-raiz .casca-chip { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* tela de entrada: avisos do provedor dentro dela */
+.casca-login-ajuda { margin-top: 2px; }
+.casca-login-visitante { margin: 0 16px 24px; background: #fff; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--casca-sombra); }
+.casca-login-visitante p { margin: 0; font-size: 14px; color: var(--casca-texto-2); line-height: 1.4; }
+#casca-login .casca-check span { padding: 0 !important; margin: 0 !important; position: static !important; }
+
+/* tela de entrada mais enxuta: topo baixo, logo menor; "Ainda não é nosso cliente?" em destaque */
+.casca-login-topo { padding: calc(22px + env(safe-area-inset-top)) 20px 52px !important; gap: 8px !important; border-radius: 0 0 28px 28px !important; }
+.casca-logo.grande { height: 52px !important; padding: 8px 14px !important; border-radius: 16px !important; }
+.casca-logo.grande img { height: 36px !important; max-width: 170px !important; }
+.casca-login-ola { font-size: 14px !important; }
+.casca-login-cartao { margin: -36px 16px 14px !important; padding: 20px 18px !important; }
+.casca-login-form { gap: 12px !important; }
+.casca-login-titulo { font-size: 21px !important; }
+.casca-login-form input:not([type=checkbox]) { padding: 12px 14px !important; }
+.casca-login-ajuda { font-size: 14.5px !important; padding: 2px 0 !important; }
+.casca-login-visitante { border: 1.5px solid var(--casca-primaria) !important; background: var(--casca-primaria-clara) !important; box-shadow: none !important; gap: 6px !important; }
+.casca-login-visitante strong { font-size: 16px; font-weight: 700; color: var(--casca-texto); }
+.casca-login-visitante p { color: var(--casca-texto) !important; font-size: 14px !important; margin: 0 0 6px !important; }
+.casca-login-visitante .casca-btn { background: var(--casca-primaria) !important; border-color: var(--casca-primaria) !important; color: #fff !important; }
+.casca-links { gap: 2px 16px !important; }
+
+/* ícones animados: a forma "carregando" gira enquanto o boleto abre (com movimento reduzido, fica parada) */
+#casca-raiz svg.casca-girando { animation: casca-gira .9s linear infinite; transform-origin: 50% 50%; }
+@keyframes casca-gira { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { #casca-raiz svg.casca-girando { animation: none; } }
+
+/* fatura em aberto (tela Faturas): PIX | Boleto, cada "Copiar" centralizado embaixo do seu botão, cartão na linha de baixo */
+#casca-raiz .casca-acoes-fatura { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin-top: 12px; }
+#casca-raiz .casca-acoes-fatura.uma { grid-template-columns: 1fr; }
+#casca-raiz .casca-acao-col { display: flex; flex-direction: column; align-items: stretch; gap: 2px; min-width: 0; }
+#casca-raiz .casca-acoes-fatura .casca-btn { width: 100%; justify-content: center; }
+#casca-raiz .casca-acoes-fatura .casca-link { justify-content: center; white-space: nowrap; font-size: 13px; }
+#casca-raiz .casca-acao-cartao { grid-column: 1 / -1; border-top: 1px solid rgba(0,0,0,.07) !important; margin-top: 4px; padding-top: 10px !important; }
+
+
+/* quadro de assinatura da própria Central (#assinarContrato): por cima da barra de baixo, largo e com botões grandes */
+html[data-casca="on"] #assinarContrato { z-index: 2100 !important; }
+html[data-casca="on"] #assinarContrato .modal-dialog { margin: 16px auto !important; width: calc(100% - 24px) !important; max-width: 520px !important; }
+html[data-casca="on"] #assinarContrato .modal-title { font-weight: 700 !important; font-size: 17px !important; }
+html[data-casca="on"] #assinarContrato canvas { width: 100%; border: 2px dashed var(--casca-borda) !important; border-radius: 14px; background: #fff; touch-action: none; }
+html[data-casca="on"] #assinarContrato .modal-footer { display: flex; gap: 10px; justify-content: stretch; }
+html[data-casca="on"] #assinarContrato .modal-footer .btn { flex: 1; min-height: 46px; margin: 0 !important; }
+html[data-casca="on"] #assinarContrato .modal-footer .btn[data-action="clear"]::after { content: " Limpar"; }
+html[data-casca="on"] #assinarContrato .modal-footer .btn[data-action="save"]::after { content: " Enviar assinatura"; }
+
+/* quadros da suspensão temporária (da própria Central): por cima da barra de baixo, largos e com botões grandes */
+html[data-casca="on"] :is(#modalSuspensao, #modalConcluirSuspensao, #modalRemoveSuspensao, #modalRemoveSuspensaoConcluir) { z-index: 2100 !important; }
+html[data-casca="on"] :is(#modalSuspensao, #modalConcluirSuspensao, #modalRemoveSuspensao, #modalRemoveSuspensaoConcluir) .modal-dialog { margin: 16px auto !important; width: calc(100% - 24px) !important; max-width: 520px !important; }
+html[data-casca="on"] :is(#modalSuspensao, #modalConcluirSuspensao, #modalRemoveSuspensao, #modalRemoveSuspensaoConcluir) :is(.botao-suspensao, .botao-concluirSuspensao, input[type="button"]) { width: 100%; min-height: 46px; border-radius: 14px; }
+/* opção liga/desliga dentro de um cartão (Meus dados) */
+html[data-casca="on"] .casca-opcao { cursor: pointer; }
+html[data-casca="on"] .casca-opcao input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--casca-primaria); }
+
+/* PIX em evidência; boleto, código e cartão em "Outras formas de pagamento" (fechado) */
+#casca-raiz .casca-acoes-fatura { grid-template-columns: 1fr !important; gap: 4px; }
+#casca-raiz .casca-acoes-fatura .casca-btn.pri,
+#casca-raiz .casca-fatura .casca-botoes .casca-btn.pri { width: 100%; min-height: 52px; font-size: 16px; font-weight: 700; border-radius: 16px; justify-content: center; }
+#casca-raiz .casca-fatura .casca-botoes:has(.casca-outras) { flex-direction: column; align-items: stretch; gap: 4px; }
+#casca-raiz .casca-outras { margin-top: 2px; }
+#casca-raiz .casca-outras > summary { list-style: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0 4px; color: var(--casca-texto-2); font-size: 13.5px; font-weight: 600; cursor: pointer; }
+#casca-raiz .casca-outras > summary::-webkit-details-marker { display: none; }
+#casca-raiz .casca-outras > summary::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+#casca-raiz .casca-outras[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
+#casca-raiz .casca-outras-itens { display: grid; gap: 6px; padding-top: 6px; }
+#casca-raiz .casca-outras-itens .casca-btn { width: 100%; justify-content: center; }
+#casca-raiz .casca-outras-itens .casca-acao-col { display: flex; flex-direction: column; gap: 2px; }
+#casca-raiz .casca-outras-itens .casca-acao-cartao { border-top: 0 !important; margin-top: 0; padding-top: 4px !important; justify-content: center; }
+
+/* logo branca no topo: maior e sem a caixa branca (data-casca-logo = "arquivo" | "branca") */
+html[data-casca-logo] .casca-topo .casca-logo, html[data-casca-logo] .casca-login-topo .casca-logo { background: none !important; padding: 0 !important; height: auto !important; border-radius: 0 !important; }
+html[data-casca-logo] .casca-topo .casca-logo img { height: 56px !important; max-width: 250px !important; }
+html[data-casca-logo] .casca-login-topo .casca-logo img { height: 56px !important; max-width: 240px !important; }
+html[data-casca-logo="branca"] :is(.casca-topo, .casca-login-topo) .casca-logo img { filter: brightness(0) invert(1); }
+/* na gaveta (fundo branco) a logo branca sumiria: lá ela fica sobre a cor do provedor */
+html[data-casca-logo="arquivo"] .casca-gaveta-topo .casca-logo { background: var(--casca-primaria) !important; padding: 6px 12px !important; border-radius: 12px; }
+
+/* manter conectado: enquanto o app entra sozinho na Central */
+.casca-login-cartao.casca-entrando { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 36px 20px; text-align: center; }
+.casca-entrando .casca-girando { width: 30px; height: 30px; border-color: var(--casca-borda); border-top-color: var(--casca-primaria); }
+.casca-destaque { outline: 2px solid var(--casca-primaria); outline-offset: 4px; border-radius: 8px; }
+
+/* A casca inteira é escalada por --casca-zoom (0,82 a 1,1): sem compensar, 44 px viram 36 px num celular de 320 px.
+   Aqui os alvos de toque crescem na proporção inversa, para dar 44 px de verdade em qualquer largura. */
+.casca-link, .casca-icone-btn, .casca-abas button, #casca-raiz .casca-outras > summary, .casca-mais { min-height: calc(44px / var(--casca-zoom, 1)); }
+.casca-icone-btn { min-width: calc(44px / var(--casca-zoom, 1)); }
+.casca-mais { display: flex; align-items: center; justify-content: center; }
+.casca-aviso button { min-width: 44px; min-height: 44px; }
+.casca-codigo { max-height: 132px; overflow-y: auto; -webkit-user-select: all; user-select: all; }
+.casca-balao.eu small { color: #fff; opacity: .95; }
+
+/* quem pediu menos movimento no aparelho não vê brilho, balanço nem deslize */
+@media (prefers-reduced-motion: reduce) {
+  .casca-esqueleto, .casca-aviso { animation: none !important; }
+  .casca-gaveta-painel, .casca-gaveta-fundo, .casca-folha-painel, .casca-folha-fundo, .casca-aviso { transition: none !important; }
+}

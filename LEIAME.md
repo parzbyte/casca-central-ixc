@@ -1,0 +1,114 @@
+# Casca da Central do Assinante do IXC
+
+Um CSS e um script que o app do provedor injeta na Central do Assinante do IXC para ela aparecer com a cara do
+provedor e com telas pensadas para o celular. Funciona nas duas Centrais do IXC:
+
+- **Central antiga** (`/central_assinante_web/`): `casca/casca.js`.
+- **Central nova** (`/central-assinante/`): `casca/casca-nova.js`.
+
+Cada casca só liga na Central dela. Se a página não for a Central do IXC, ou a estrutura dela não bater, a casca se
+desliga sozinha e a Central aparece como é.
+
+Não usa token da API do IXC e não mexe nos dados. A sessão é a do próprio cliente, e as ações (PIX, boleto em PDF,
+desbloqueio em confiança, assinatura de contrato, suspensão, troca de senha) continuam sendo os botões da própria
+Central. A casca lê o estado da página e repassa os cliques.
+
+## O que tem
+
+- Entrada com login, primeiro acesso e "Esqueci minha senha" (quando o provedor liga).
+- Início com a situação da conexão, a próxima fatura e atalhos.
+- Faturas com PIX copia e cola, código de barras e PDF.
+- Contratos, consumo, atendimentos, notas fiscais, mensagens e meus dados.
+- Na Central nova: Meu Wi-Fi e aparelhos conectados.
+- No computador e no tablet, as mesmas telas numa coluna centralizada.
+- Dentro do app: barra de abas nativa e "manter conectado" com o login guardado pelo app. Esse login só é apagado
+  quando a Central recusa a senha.
+
+## Montar o arquivo para o app
+
+```bash
+node ferramentas/empacotar.mjs
+```
+
+Gera `dist/casca-app.js` com o CSS embutido, os ícones e as duas cascas. É esse arquivo que o app injeta.
+
+## Como o app injeta
+
+1. Antes dos scripts da página (Android: `WebViewCompat.addDocumentStartJavaScript`; iOS: `WKUserScript` com
+   `.atDocumentStart`), rode `window.__CASCA_CFG__ = {...}` seguido do conteúdo de `dist/casca-app.js`.
+2. Ponha `WAApp/` no user agent, ou `app: true` na configuração, para a casca saber que está dentro de um app.
+3. Para receber os avisos da casca, exponha `window.WAAppNativo.postMessage(json)`.
+
+Exemplos prontos em `exemplos/android.kt` e `exemplos/ios.swift`.
+
+### Configuração (`window.__CASCA_CFG__`)
+
+| Chave | O que faz |
+|---|---|
+| `primaria` | Cor principal do provedor (`#RRGGBB`). Padrão `#2563EB`. |
+| `primariaEscura`, `primariaClara` | Tons da cor principal. Sem eles, a casca calcula. |
+| `nome` | Nome do provedor. |
+| `logo` | Endereço ou `data:` da logo. Sem ela, usa a logo da própria Central. |
+| `logoBranca`, `logoEstilo` | Logo toda branca para o topo colorido, ou `logoEstilo: 'branca'` para deixar a logo branca. |
+| `app` | `true` dentro do app. |
+| `textos` | Troca textos das telas: `{ "chave": "texto" }`. Vazio volta ao texto padrão. |
+| `avisoLogin` | `{ titulo, pergunta, texto }`: janela "como entrar" na tela de login. |
+| `avisoVisitante` | Texto para quem ainda não é cliente, na tela de login. |
+| `esqueciSenha` | `true` mostra "Esqueci minha senha" (só ligue com a recuperação configurada no IXC). |
+| `cartao` | `false` esconde o pagamento recorrente no cartão. |
+| `semSuporte` | `true` tira o Suporte dos atalhos da Central nova (quando o app já tem atendimento). |
+| `escalaLetra` | Tamanho da letra, de 0,85 a 2. |
+
+### Avisos que a casca manda ao app (`acao`)
+
+| `acao` | Quando |
+|---|---|
+| `casca_pronta` | A tela da casca está desenhada (hora de esconder a abertura do app). |
+| `aba_ativa` | A tela mudou para Início ou Faturas (para acender a aba nativa). |
+| `ir_aba` | O cliente pediu uma aba que o app tem (por exemplo, atendimento). |
+| `menu_central` | A lista de itens do menu, para o "Mais" da barra nativa. |
+| `central_sessao` | O token da sessão da Central, para o app usar a mesma sessão, se quiser. |
+| `central_cred_pedir` | Pede o login guardado. Responda com `window.__casca.credenciais({ usuario, senha })` (antiga) ou `window.__cascaNova.credenciais(...)` (nova), ou `null`. |
+| `central_cred_guardar` | Guardar login e senha (o cliente marcou "manter conectado"). Guarde cifrado. |
+| `central_cred_ok` | O login guardado entrou. |
+| `central_cred_esquecer` | Apagar o login guardado (a Central recusou a senha ou o cliente saiu). |
+
+O app pode ignorar qualquer um desses avisos: a casca funciona sem eles.
+
+## Simulador
+
+Abre uma Central de verdade num Chrome em formato de celular (390 x 844), com a casca injetada antes de qualquer script
+da página, como o app faz. Quem entra com a conta é você, na janela. Ao salvar `casca.css` ou `casca.js`, a página
+recarrega com a versão nova.
+
+```bash
+node simulador/simulador.mjs --url https://seu.provedor.com.br/central_assinante_web/
+```
+
+Opções:
+
+- `--app`: imita o app (user agent, cores e uma ponte falsa que só registra os avisos).
+- `--cor #RRGGBB`, `--nome "Provedor"`, `--logo arquivo.png`: a marca do provedor.
+- `--sem-casca`: a Central como ela é, para comparar.
+- `--mapear`: grava a estrutura de cada tela e uma foto em `simulador/mapa/`.
+
+O endereço também pode ficar em `simulador/config.json` (veja `config.exemplo.json`). O perfil do navegador
+(`simulador/perfil/`) guarda a sua sessão e as fotos de `simulador/mapa/` podem ter dados da conta: as duas pastas
+ficam fora do git. Nunca publique nada delas.
+
+Precisa de Node 22 ou mais novo e do Chrome ou do Edge instalado.
+
+## Licença
+
+MIT com a condição Commons Clause (arquivo `LICENSE`). Em português:
+
+- **Pode:** usar de graça no app e na Central do seu provedor, mudar o código, copiar e distribuir.
+- **Não pode:** vender a casca, nem cobrar de terceiros por um produto ou serviço que seja, no todo ou em boa parte, a
+  casca. Isso vale também para cobrar pela instalação ou pelo suporte dela.
+- **Contribuir é bem-vindo e não é obrigatório.** Melhorou alguma coisa? Mande um pull request.
+
+Por causa da restrição de venda, esta licença não é "open source" no sentido da OSI: o código é aberto para ler, usar e
+melhorar, mas não para revender. Os ícones em `casca/morph.js` (MIT) e `casca/pulso.js` (ISC e MIT) mantêm as licenças
+deles.
+
+A casca não tem ligação com a IXC Soft. IXC é marca da dona dela.

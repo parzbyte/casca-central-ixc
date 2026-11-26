@@ -1,0 +1,13 @@
+{
+  "name": "casca-central-ixc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Casca (tema e telas) injetada na Central do Assinante do IXC, antiga e nova, com simulador mobile",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "empacotar": "node ferramentas/empacotar.mjs",
+    "simulador": "node simulador/simulador.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

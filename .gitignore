@@ -1,0 +1,12 @@
+# Perfil do navegador do simulador (guarda a sessão da Central: nunca entra no git)
+simulador/perfil/
+# Mapas, fotos e resultados tirados da Central de verdade (podem ter dados do cliente)
+simulador/mapa/
+simulador/capturas/
+simulador/comandos/
+# Configuração local (endereço da Central em teste)
+simulador/config.json
+dist/
+node_modules/
+*.log
+.env

@@ -121,7 +121,7 @@ Precisa de Node 22 ou mais novo e do Chrome ou do Edge instalado.
 
 ## Apoie o projeto
 
-A casca é de graça. Se ela ajudou o seu provedor e você quiser apoiar, o Pix é `david@parzbyte.com.br`. Não é
+A casca é de graça. Se ela ajudou o seu provedor e você quiser apoiar, o Pix é o CNPJ `70.078.072/0001-37`. Não é
 obrigatório: um pull request ou um aviso de defeito ajudam tanto quanto.
 
 ## Licença

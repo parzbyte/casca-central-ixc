@@ -16,8 +16,9 @@
     if (u.protocol !== 'https:' || !HOST.test(u.hostname)) return null;
     const p = u.pathname;
     if (/\/central_assinante_web(\/|$)/.test(p)) return { tipo: 'antiga', host: u.host, base: '/central_assinante_web' };
-    const m = /^(.*?\/central-assinante)(\/|$)/.exec(p);
-    if (m) return { tipo: 'nova', host: u.host, base: m[1] };
+    // a base vira texto dentro do index.php: só pastas com letras, números, ponto, hífen e sublinhado
+    const m = /^((?:\/[A-Za-z0-9._-]+)*?\/central-assinante)(\/|$)/.exec(p);
+    if (m && !/(^|\/)\.\.?(\/|$)/.test(m[1])) return { tipo: 'nova', host: u.host, base: m[1] };
     return null;
   }
 
@@ -65,7 +66,7 @@
     if (dados.semCartao) cfg.cartao = false;
 
     const php = troca(M['index.php'], {
-      NOME: nome, GERADO_EM: dados.hoje || new Date().toISOString().slice(0, 10), ORIGEM_HOST: info.host, ORIGEM_BASE: info.base,
+      NOME: nome, GERADO_EM: dados.hoje || new Date().toISOString().slice(0, 10), ORIGEM_HOST: phpAspas(info.host), ORIGEM_BASE: phpAspas(info.base),
       ESPELHO_BASE: T.espelho, HOSTS_PHP: '[' + hosts.map(h => "'" + phpAspas(h) + "'").join(', ') + ']',
       CFG_JSON: phpAspas(jsonSeguro(cfg)), COR: cor,
     });

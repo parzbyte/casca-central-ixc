@@ -46,6 +46,7 @@ ok(G.centralDoLink('https://p.com.br/central-assinante/login')?.tipo === 'nova',
 ok(G.centralDoLink('https://p.com.br/sub/central-assinante/')?.base === '/sub/central-assinante', 'Central nova em subpasta');
 ok(G.centralDoLink('http://ixc.p.com.br/central_assinante_web/') === null, 'sem https: recusa');
 ok(G.centralDoLink('https://p.com.br/') === null, 'sem caminho da Central: recusa');
+ok(G.centralDoLink("https://p.com.br/x';file_put_contents('p',1);//central-assinante/") === null && G.centralDoLink('https://p.com.br/a$b/central-assinante/') === null, 'caminho com aspa ou código PHP: recusa');
 
 console.log('2. Central antiga');
 const a = G.gerar(Object.assign({ central: 'https://ixc.redeteste.com.br/central_assinante_web/', logoEstiloBranca: true, semCartao: true }, base), A);
